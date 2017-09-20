@@ -19,16 +19,7 @@ def indices_repetidos(lista, corte):
     return np.where(arreglo >= corte), arreglo
 
 
-if __name__ == "__main__":
-    df = pd.DataFrame.from_csv('datos/necesidades.csv')
-    distancia_calle = indices_repetidos(df.calle.tolist(), 90)
-    lista_calles = [str(df.calle.tolist()[i]) + ' ' +
-                    str(df.entrecalles.tolist()[i])
-                    for i in range(df.shape[0])]
-    distancia_calles, dist = indices_repetidos(lista_calles, 90)
-    repetidos = np.unique(distancia_calles[1])
-    print(len(repetidos) / len(lista_calles))
-
+def checa_distancias():
     calles1 = []
     calles2 = []
     distancia = []
@@ -44,3 +35,17 @@ if __name__ == "__main__":
         'calle2': [lista_calles[x] for x in calles2],
         'distancia': distancia
     }).to_csv('datos/distancias.csv')
+
+
+
+if __name__ == "__main__":
+    df = pd.DataFrame.from_csv('datos/necesidades.csv')
+    distancia_calle = indices_repetidos(df.calle.tolist(), 90)
+    lista_calles = [str(df.calle.tolist()[i]) + ' ' +
+                    str(df.entrecalles.tolist()[i])
+                    for i in range(df.shape[0])]
+    distancia_calles, dist = indices_repetidos(lista_calles, 90)
+    repetidos = np.unique(distancia_calles[1])
+    print(len(repetidos) / len(lista_calles))
+
+    checa_distancias()
