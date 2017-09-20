@@ -1,5 +1,5 @@
 import geopy as gp
-from gp.distance import vincenty
+from geopy.distance import vincenty
 
 def op_base(file):
     base = []
