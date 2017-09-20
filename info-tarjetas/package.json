@@ -1,0 +1,5 @@
+{
+  "dependencies": {
+    "node-jspdf": "https://github.com/calvinfroedge/node-jspdf.git"
+  }
+}
