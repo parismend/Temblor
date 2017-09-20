@@ -46,7 +46,7 @@ def get_credentials():
         print('Storing credentials to ' + credential_path)
     return credentials
 
-def main():
+def get_Data_temblor():
     """Shows basic usage of the Sheets API.
 
     Creates a Sheets API service object and prints the names and majors of
@@ -59,18 +59,18 @@ def main():
                     'version=v4')
     service = discovery.build('sheets', 'v4', http=http, discoveryServiceUrl=discoveryUrl)
     spreadsheetId = 'Necesidades de Zonas Afectadas y Albergues '
-    #rangeName = 'Class Data!A2:E'
+    #####DAÑOS Y DERRUMBES VERIFICADOS
+    #####Para descargar otras páginas cambiar el onmbre en el campo range
     result = service.spreadsheets().values().get(
-        spreadsheetId=spreadsheetId, range=rangeName).execute()
+        spreadsheetId='1tI4tyg7is4kmSiBOI5siEhM-NRSV-8gM4Ka3UzTTJic',
+        range='DAÑOS Y DERRUMBES VERIFICADOS!A1:H1500').execute()
     values = result.get('values', [])
     if not values:
         print('No data found.')
     else:
-        print('Name, Major:')
-        for row in values:
-            # Print columns A and E, which correspond to indices 0 and 4.
-            print('%s, %s' % (row[0], row[4]))
+        print(values)
 
 
 if __name__ == '__main__':
-    main()
+    data=get_Data_temblor()
+    print(data)
