@@ -1,5 +1,5 @@
 #Correr desde HOME
-
+import re
 from apiclient import discovery
 from oauth2client import client
 from oauth2client import tools
@@ -7,6 +7,8 @@ from oauth2client.file import Storage
 import pandas as pd
 import os
 import httplib2
+import geopy as gp
+from geopy.geocoders import Nominatim
 
 try:
     import argparse
@@ -19,6 +21,28 @@ except ImportError:
 SCOPES = 'https://www.googleapis.com/auth/spreadsheets.readonly'
 CLIENT_SECRET_FILE = 'creds/secreto_cliente.json'
 APPLICATION_NAME = 'Temblor'
+geolocator= Nominatim()
+
+#Dirección debe ser de la forma "Num Calle Ciudad"
+def dir_correct(calle, numero):
+    k = []
+    k.append(numero)
+    k.append(calle)
+    k.append('cdmx')
+    dirr =' '.join(k)
+    return dirr
+    
+
+
+def obtain_latlong(dirr):
+    try:
+        location = geolocator.geocode(dirr)
+        lat = location.latitude
+        lon = location.longitude
+    except:
+        lat = ''
+        lon = ''
+    return lat,lon
 
 
 def get_credentials():
@@ -68,8 +92,8 @@ def get_Data_temblor():
     # DAÑOS Y DERRUMBES VERIFICADOS
     # Para descargar otras páginas cambiar el onmbre en el campo range
     result = service.spreadsheets().values().get(
-        spreadsheetId='1tI4tyg7is4kmSiBOI5siEhM-NRSV-8gM4Ka3UzTTJic',
-        range='DAÑOS Y DERRUMBES VERIFICADOS!A1:H1500').execute()
+        spreadsheetId='1CC5BqKv7Pqx5V2wtoJUNN7fOGOPtFyT5XOhSjfVhai8',
+        range='Form Responses 1!A1:AH10000').execute()
     values = result.get('values', [])
     if not values:
         print('No data found.')
@@ -107,9 +131,8 @@ def estructura_sheet(listas):
     info = pd.DataFrame()
     for lista in listas:
         dicc_aux = {}
-        for col in range(len(lista)):
+        for col in range(1, len(lista)):
             dicc_aux[columnas[col]] = lista[col]
-        print(dicc_aux)
         info = info.append(dicc_aux, ignore_index=True)
     return info
 
@@ -117,5 +140,23 @@ def estructura_sheet(listas):
 if __name__ == '__main__':
     data = get_Data_temblor()
     info = estructura_sheet(data)
-    info.drop(columns = )
-    print(data)
+    info_pub = info.drop([
+        'Nombre del Informante (esta información no será pública)',
+        'Teléfono de Contacto (esta información no será pública)'],
+        axis=1)
+
+    calles = info_pub['Calle'].tolist()
+    numeros = info_pub['Número Exterior  o Aproximado (escribe sólo el número)'].tolist()
+    lati = []
+    longi = []
+    for i in range(info_pub.shape[0]):
+        lat_aux, lon_aux = obtain_latlong(dir_correct(
+            calles[i], numeros[i]))
+        lati.append(lat_aux)
+        longi.append(lon_aux)
+    info_pub.columns = [re.sub('[<>{}\|]','',x) for x in info_pub.columns]
+    info_pub.columns = [re.sub('\(.*\)','',x) for x in info_pub.columns]
+    info_pub.columns = [x[0:60] for x in info_pub.columns]
+    info_pub['latitud'] = lati
+    info_pub['longitud'] = longi
+    info_pub.to_csv('datos.csv')
