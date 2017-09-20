@@ -6,9 +6,9 @@ from oauth2client import tools
 from oauth2client.file import Storage
 import os
 import httplib2
+import argparse
 
 try:
-    import argparse
     flags = argparse.ArgumentParser(parents=[tools.argparser]).parse_args()
 except ImportError:
     flags = None
@@ -58,17 +58,17 @@ def get_Data_temblor():
     discoveryUrl = ('https://sheets.googleapis.com/$discovery/rest?'
                     'version=v4')
     service = discovery.build('sheets', 'v4', http=http, discoveryServiceUrl=discoveryUrl)
-    spreadsheetId = 'Necesidades de Zonas Afectadas y Albergues '
+#    spreadsheetId = 'Necesidades de Zonas Afectadas y Albergues '
+    spreadsheetId = '19S (Responses)'
     #####DAÑOS Y DERRUMBES VERIFICADOS
     #####Para descargar otras páginas cambiar el onmbre en el campo range
     result = service.spreadsheets().values().get(
-        spreadsheetId='1tI4tyg7is4kmSiBOI5siEhM-NRSV-8gM4Ka3UzTTJic',
-        range='DAÑOS Y DERRUMBES VERIFICADOS!A1:H1500').execute()
+#        spreadsheetId='1tI4tyg7is4kmSiBOI5siEhM-NRSV-8gM4Ka3UzTTJic',
+#        range='DAÑOS Y DERRUMBES VERIFICADOS!A1:H1500').execute()
+        spreadsheetId='1CC5BqKv7Pqx5V2wtoJUNN7fOGOPtFyT5XOhSjfVhai8',
+        range='Form Responses 1!A1:AJ150').execute()
     values = result.get('values', [])
-    if not values:
-        print('No data found.')
-    else:
-        print(values)
+    print(values)
 
 
 if __name__ == '__main__':
