@@ -1,4 +1,4 @@
-#Correr desde HOME
+# Correr desde HOME
 import re
 from apiclient import discovery
 from oauth2client import client
@@ -7,7 +7,6 @@ from oauth2client.file import Storage
 import pandas as pd
 import os
 import httplib2
-import geopy as gp
 from geopy.geocoders import Nominatim
 
 try:
@@ -21,17 +20,17 @@ except ImportError:
 SCOPES = 'https://www.googleapis.com/auth/spreadsheets.readonly'
 CLIENT_SECRET_FILE = 'creds/secreto_cliente.json'
 APPLICATION_NAME = 'Temblor'
-geolocator= Nominatim()
+geolocator = Nominatim()
 
-#Dirección debe ser de la forma "Num Calle Ciudad"
+
+# Dirección debe ser de la forma "Num Calle Ciudad"
 def dir_correct(calle, numero):
     k = []
     k.append(numero)
     k.append(calle)
     k.append('cdmx')
-    dirr =' '.join(k)
+    dirr = ' '.join(k)
     return dirr
-    
 
 
 def obtain_latlong(dirr):
@@ -42,7 +41,7 @@ def obtain_latlong(dirr):
     except:
         lat = ''
         lon = ''
-    return lat,lon
+    return lat, lon
 
 
 def get_credentials():
@@ -131,7 +130,7 @@ def estructura_sheet(listas):
     info = pd.DataFrame()
     for lista in listas:
         dicc_aux = {}
-        for col in range(1, len(lista)):
+        for col in range(len(lista)):
             dicc_aux[columnas[col]] = lista[col]
         info = info.append(dicc_aux, ignore_index=True)
     return info
@@ -154,8 +153,8 @@ if __name__ == '__main__':
             calles[i], numeros[i]))
         lati.append(lat_aux)
         longi.append(lon_aux)
-    info_pub.columns = [re.sub('[<>{}\|]','',x) for x in info_pub.columns]
-    info_pub.columns = [re.sub('\(.*\)','',x) for x in info_pub.columns]
+    info_pub.columns = [re.sub('[<>{}\|]', '', x) for x in info_pub.columns]
+    info_pub.columns = [re.sub('\(.*\)', '', x) for x in info_pub.columns]
     info_pub.columns = [x[0:60] for x in info_pub.columns]
     info_pub['latitud'] = lati
     info_pub['longitud'] = longi
