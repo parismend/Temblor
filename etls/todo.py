@@ -7,11 +7,13 @@ class LimpiaGoogleSheets(luigi.Task):
     query_date = luigi.Parameter()
 
     def run(self):
-    	
-    	print(self.google_secret,self.google_spreedsheet)
+    	# print(self.google_secret,self.google_spreedsheet)
+        with self.output().open('w') as output_file:
+            output_file.write('Hola google')
 
     def output(self):
-    	return luigi.LocalTarget("tmp/corrida_%s.csv" % self.query_date)
+    	print ("tmp/corrida_{}.csv")
+    	return luigi.LocalTarget("tmp/corrida_{}.csv".format(self.query_date))
 
 
 class RunAll(luigi.Task):
@@ -23,3 +25,6 @@ class RunAll(luigi.Task):
             "query_date":"134567"
         }
         return LimpiaGoogleSheets(**params)
+
+    def output(self):
+    	return luigi.LocalTarget("tmp/_END")
