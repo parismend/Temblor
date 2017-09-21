@@ -68,9 +68,13 @@ if __name__ == '__main__':
     # Abrir el CSV
     df_csv = pd.read_csv('datos.csv', header=0, skiprows=[1, 1])
     df_csv = df_csv.drop(['Unnamed: 0', 'Unnamed: 1'], axis=1)
+    bs_csv = pd.read_csv('bici_squad.csv', header=0)
+    bs_csv = bs_csv.drop(['Unnamed: 0'], axis=1)
+    bs_csv['Foto'] = ''
+    bs_csv['Hora'] = ''
 
     # Concatenar
-    frames = [df_nec, df_vol, df_csv]
+    frames = [df_nec, df_vol, df_csv, bs_csv]
 
     for i in range(len(frames)):
         frames[i].columns = [x.strip() for x in frames[i].columns]
