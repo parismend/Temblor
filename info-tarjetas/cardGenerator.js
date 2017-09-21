@@ -1,4 +1,6 @@
 const jsPDF = require('node-jspdf');
+const fs = require('fs');
+const PDFImage = require("pdf-image").PDFImage;
 
 const data = [
   {
@@ -125,4 +127,17 @@ const createCard = (data) => {
 };
 
 data.forEach(item => createCard(item));
+
+const pdfFolder = './pdf/';
+
+fs.readdir(pdfFolder, (err, files) => {
+  files.forEach(file => {
+    let pdfImage = new PDFImage(file);
+    pdfImage.convertPage(0).then(function (imagePath) {
+     // 0-th page (first page) of the slide.pdf is available as slide-0.png 
+     fs.existsSync("./png/"+file) // => true 
+    });
+  });
+})
+
 module.exports.createCard = createCard;
