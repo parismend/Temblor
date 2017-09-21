@@ -4,11 +4,11 @@ from geopy.geocoders import Nominatim
 geolocator= Nominatim()
 
 #Dirección debe ser de la forma "Num Calle Ciudad"
-def dir_correct(calle, numero):
+def dir_correct(calle, numero, ciudad):
 	k = []
 	k.append(numero)
 	k.append(calle)
-	k.append('cdmx')
+	k.append(ciudad)
 	dirr =' '.join(k)
 	return dirr
 	
@@ -20,7 +20,7 @@ def obtain_latlong(dirr):
 	lon = location.longitude
 	return lat,lon
 
-if __name__ : '__main__':
+if __name__ == '__main__':
 	dirr = dir_correct()
 	lat,lon = obtain_latlon(dirr)
 

@@ -1,0 +1,7 @@
+{
+  "dependencies": {
+    "d3": "^4.10.2",
+    "node-jspdf": "https://github.com/calvinfroedge/node-jspdf.git",
+    "pdf-image": "^1.1.0"
+  }
+}
