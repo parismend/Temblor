@@ -82,5 +82,4 @@ const createCard = (data) => {
   doc.save(`./pdf/${data.title}.pdf`, saveCallback);
 };
 
-// data.forEach(item => createCard(item));
 module.exports.createCard = createCard;
