@@ -7,11 +7,6 @@ import os
 import httplib2
 from geopy.geocoders import Nominatim
 
-try:
-    import argparse
-    flags = argparse.ArgumentParser(parents=[tools.argparser]).parse_args()
-except ImportError:
-    flags = None
 
 # If modifying these scopes, delete your previously saved credentials
 # at ~/.credentials/sheets.googleapis.com-python-quickstart.json
@@ -28,18 +23,16 @@ def dir_correct(calle, numero):
     k.append(calle)
     k.append('cdmx')
     dirr = ' '.join(k)
+
     return dirr
 
 
 def obtain_latlong(dirr):
     try:
         location = geolocator.geocode(dirr)
-        lat = location.latitude
-        lon = location.longitude
+        return (location.latitude, location.longitude)
     except:
-        lat = ''
-        lon = ''
-    return lat, lon
+        return ('', '')
 
 
 def get_credentials():
@@ -51,15 +44,15 @@ def get_credentials():
     Returns:
         Credentials, the obtained credential.
     """
-    home_dir = os.path.expanduser('~')
-    credential_dir = os.path.join(home_dir, '.credentials')
-    if not os.path.exists(credential_dir):
-        os.makedirs(credential_dir)
+    credetntial_path = os.environ.get('CREDENTIALS_PATH')
     credential_path = os.path.join(
-        credential_dir,
-        'sheets.googleapis.com-python-quickstart.json')
+        credetntial_path,
+        'sheets.googleapis.com-python-quickstart.json'
+    )
+
     store = Storage(credential_path)
     credentials = store.get()
+
     if not credentials or credentials.invalid:
         flow = client.flow_from_clientsecrets(CLIENT_SECRET_FILE, SCOPES)
         flow.user_agent = APPLICATION_NAME
@@ -68,10 +61,11 @@ def get_credentials():
         else:  # Needed only for compatibility with Python 2.6
             credentials = tools.run(flow, store)
         print('Storing credentials to ' + credential_path)
+
     return credentials
 
 
-def get_Data_temblor():
+def get_data_temblor():
     """Shows basic usage of the Sheets API.
 
     Creates a Sheets API service object and prints the names and majors of
@@ -82,23 +76,26 @@ def get_Data_temblor():
     http = credentials.authorize(httplib2.Http())
     discoveryUrl = ('https://sheets.googleapis.com/$discovery/rest?'
                     'version=v4')
-    service = discovery.build('sheets',
-                              'v4',
-                              http=http,
-                              discoveryServiceUrl=discoveryUrl)
+    service = discovery.build(
+        'sheets',
+        'v4',
+        http=http,
+        discoveryServiceUrl=discoveryUrl
+    )
     # DAÑOS Y DERRUMBES VERIFICADOS
     # Para descargar otras páginas cambiar el onmbre en el campo range
     result = service.spreadsheets().values().get(
         spreadsheetId='1CC5BqKv7Pqx5V2wtoJUNN7fOGOPtFyT5XOhSjfVhai8',
         range='Form Responses 1!A1:AH10000').execute()
     values = result.get('values', [])
+
     if not values:
         print('No data found.')
     else:
         return values
 
 
-def insert_Data_temblor(datos):
+def insert_data_temblor(datos):
     """Shows basic usage of the Sheets API.
 
     Creates a Sheets API service object and prints the names and majors of
