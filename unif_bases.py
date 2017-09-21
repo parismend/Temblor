@@ -102,3 +102,6 @@ waze_n.to_csv('datos/waze.csv')
 
 
 
+
+
+
