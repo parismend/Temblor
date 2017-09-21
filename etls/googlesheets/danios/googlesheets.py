@@ -137,6 +137,7 @@ def estructura_sheet(listas):
 
 
 if __name__ == '__main__':
+    print ("inicia!")
     data = get_Data_temblor()
     info = estructura_sheet(data)
     info_pub = info.drop([
@@ -153,9 +154,14 @@ if __name__ == '__main__':
             calles[i], numeros[i]))
         lati.append(lat_aux)
         longi.append(lon_aux)
+    info_pub['latitud'] = lati
+    info_pub['longitud'] = longi
     info_pub.columns = [re.sub('[<>{}\|]', '', x) for x in info_pub.columns]
     info_pub.columns = [re.sub('\(.*\)', '', x) for x in info_pub.columns]
     info_pub.columns = [x[0:60] for x in info_pub.columns]
-    info_pub['latitud'] = lati
-    info_pub['longitud'] = longi
+    # Faltantes
+    for col in info_pub.columns[info_pub.columns.str.contains('alta')]:
+        info_pub.loc[info_pub[col] == '', col] = 'Si tienes info entra a: http://bit.ly/Verificado19s'
+    for col in info_pub.columns[info_pub.columns.str.contains('obra')]:
+        info_pub.loc[info_pub[col] == '', col] = 'Si tienes info entra a: http://bit.ly/Verificado19s'
     info_pub.to_csv('datos.csv')
