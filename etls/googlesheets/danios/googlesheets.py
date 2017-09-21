@@ -147,11 +147,12 @@ if __name__ == '__main__':
 
     calles = info_pub['Calle'].tolist()
     numeros = info_pub['Número Exterior  o Aproximado (escribe sólo el número)'].tolist()
+    ciudades = info_pub['Entidad'].tolist()
     lati = []
     longi = []
     for i in range(info_pub.shape[0]):
         lat_aux, lon_aux = obtain_latlong(dir_correct(
-            calles[i], numeros[i]))
+            calles[i], numeros[i], ciudades[i]))
         lati.append(lat_aux)
         longi.append(lon_aux)
     info_pub['latitud'] = lati
