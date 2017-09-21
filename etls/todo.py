@@ -16,7 +16,7 @@ class LimpiaGoogleSheets(luigi.Task):
 
     def run(self):
         # NOTA: Descomentar para probar el envio de mails
-        self.truena()
+        # self.truena()
 
         with self.output().open('w') as output_file:
             output_file.write('Hola google')
