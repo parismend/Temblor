@@ -8,6 +8,7 @@ import pandas as pd
 import os
 import httplib2
 from geopy.geocoders import Nominatim
+from Dicc_Tipo_Danhos import camb_tipos
 
 try:
     import argparse
@@ -146,6 +147,7 @@ if __name__ == '__main__':
 
     calles = info_pub['Calle'].tolist()
     numeros = info_pub['Número Exterior  o Aproximado (escribe sólo el número)'].tolist()
+    # coordenadas
     lati = []
     longi = []
     for i in range(info_pub.shape[0]):
@@ -155,6 +157,7 @@ if __name__ == '__main__':
         longi.append(lon_aux)
     info_pub['latitud'] = lati
     info_pub['longitud'] = longi
+
     info_pub.columns = [re.sub('[<>{}\|]', '', x) for x in info_pub.columns]
     info_pub.columns = [re.sub('\(.*\)', '', x) for x in info_pub.columns]
     info_pub.columns = [x[0:60] for x in info_pub.columns]
@@ -163,4 +166,14 @@ if __name__ == '__main__':
         info_pub.loc[info_pub[col] == '', col] = 'Si tienes info entra a: http://bit.ly/Verificado19s'
     for col in info_pub.columns[info_pub.columns.str.contains('obra')]:
         info_pub.loc[info_pub[col] == '', col] = 'Si tienes info entra a: http://bit.ly/Verificado19s'
+
+    dicc_danios = camb_tipos()
+
+    info_pub = info_pub.merge(pd.DataFrame({
+        'Tipo del Daño': list(dicc_danios.keys()),
+        'Tipo Daño': list(dicc_danios.values())}))
+
+    info_pub['Tipo del Daño'] = info_pub['Tipo Daño']
+    info_pub.drop('Tipo Daño', axis=1)
+
     info_pub.to_csv('datos.csv')
