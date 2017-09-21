@@ -24,11 +24,11 @@ geolocator = Nominatim()
 
 
 # Dirección debe ser de la forma "Num Calle Ciudad"
-def dir_correct(calle, numero):
+def dir_correct(calle, numero,ciudad):
     k = []
     k.append(numero)
     k.append(calle)
-    k.append('cdmx')
+    k.append(ciudad)
     dirr = ' '.join(k)
     return dirr
 
