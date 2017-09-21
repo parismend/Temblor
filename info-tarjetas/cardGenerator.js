@@ -1,47 +1,5 @@
 const jsPDF = require('node-jspdf');
 
-const data = [
-  {
-    title: 'daño',
-    type: 'D',
-    falta: ['Medicina', 'Gaza', 'Palas', 'Agua'],
-    sobra: ['Comida'],
-    date: '20/9/17 12:30',
-    msg: 'Posible Derrumbe',
-    address: {
-      calle: 'Colima',
-      nro: 100,
-      col: 'Condesa'
-    }
-  },
-  {
-    title: 'albergue',
-    type: 'C',
-    falta: ['Medicina', 'Palas'],
-    sobra: ['Comida', 'Cuidado personal'],
-    date: '20/9/17 12:30',
-    msg: 'Se necesitan colchones',
-    address: {
-      calle: 'Juan Sanchez Ascona',
-      nro: 1635,
-      col: 'Del Valle'
-    }
-  },
-  {
-    title: 'acopio',
-    type: 'A',
-    falta: ['Medicina', 'Palas', 'Agua', 'Alcohol'],
-    sobra: ['Comida', 'Cuidado personal', 'Dinero'],
-    date: '20/9/17 12:30',
-    msg: 'Se necesita comida',
-    address: {
-      calle: 'Tokio',
-      nro: 317,
-      col: 'Portales Norte'
-    }
-  }
-];
-
 const saveCallback = err => {
   if (err)
     console.log(err);
@@ -124,5 +82,5 @@ const createCard = (data) => {
   doc.save(`./pdf/${data.title}.pdf`, saveCallback);
 };
 
-data.forEach(item => createCard(item));
+// data.forEach(item => createCard(item));
 module.exports.createCard = createCard;
