@@ -71,6 +71,4 @@ module.exports.data = d3.csv(csvUrl, (err, data) => {
     mock.sobra = [...viveresSobrantes, ...herramientasSobrantes];
     return mock;
   });
-
-  return newData;
 });
