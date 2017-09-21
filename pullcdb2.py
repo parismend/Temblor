@@ -1,4 +1,5 @@
 import re
+import datetime
 import pandas as pd
 import urllib.request, json, datetime
 
@@ -71,7 +72,7 @@ if __name__ == '__main__':
     bs_csv = pd.read_csv('bici_squad.csv', header=0)
     bs_csv = bs_csv.drop(['Unnamed: 0'], axis=1)
     bs_csv['Foto'] = ''
-    bs_csv['Hora'] = ''
+    bs_csv['Hora'] = re.match('[ \d:\-]*(?!=\.)', str(datetime.datetime.now()))
 
     # Concatenar
     frames = [df_nec, df_vol, df_csv, bs_csv]
