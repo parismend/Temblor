@@ -33,9 +33,13 @@ const createCard = data => {
 
   const doc = new jsPDF({
     orientation: 'portrait',
-    unit: 'cm',
-    format: [12, 10]
+    unit:        'cm',
+    format:      [12, 10]
   });
+
+  // base Rect
+  doc.setFillColor(255, 255, 255);
+  doc.rect(0, 0, 10, 12, 'F');
 
   // Tipo
   doc.setFillColor(c[0], c[1], c[2]);
@@ -105,10 +109,8 @@ d3.csv(csvUrl, (err, data) => {
 );
 
 /*const pdfFolder = './pdf/';
-
 fs.readdir(pdfFolder, (err, files) => {
   files.forEach(file => {
-    console.log(file);
     let pdfImage = new PDFImage('./pdf/'+file);
     pdfImage.convertPage(0).then(function (imagePath) {
      // 0-th page (first page) of the slide.pdf is available as slide-0.png
