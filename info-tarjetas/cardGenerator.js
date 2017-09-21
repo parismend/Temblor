@@ -92,16 +92,17 @@ const createCard = data => {
   doc.save(`./pdf/${data.title}.pdf`, saveCallback);
 };
 
-data.forEach(item => createCard(item));
+//data.forEach(item => createCard(item));
 
 const pdfFolder = './pdf/';
 
 fs.readdir(pdfFolder, (err, files) => {
   files.forEach(file => {
-    let pdfImage = new PDFImage(file);
+    console.log(file);
+    let pdfImage = new PDFImage('./pdf/'+file);
     pdfImage.convertPage(0).then(function (imagePath) {
      // 0-th page (first page) of the slide.pdf is available as slide-0.png 
-     fs.existsSync("./png/"+file) // => true 
+     fs.existsSync("./pdf/"+file) // => true 
     });
   });
 })
