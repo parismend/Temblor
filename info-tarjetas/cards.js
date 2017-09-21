@@ -59,16 +59,16 @@ const createCard = data => {
   // Fecha
   doc.setTextColor(white);
   doc.setFontSize(12);
-  doc.text(data.fecha, 7, .7);
+  doc.text(data.fecha, 6.8, .7);
 
   // Riesgo
   doc.setFillColor(c[0], c[1], c[2]);
-  doc.rect(1, 2, 7, 1, 'F');
+  doc.rect(0, 2, 10, 1, 'F');
 
   // Texto Riesgo
   doc.setTextColor(white);
   doc.setFontSize(16);
-  doc.text(data.msj, 1.2, 2.7);
+  doc.text(data.msj, .3, 2.7);
 
   // Direccion
   doc.setTextColor(hex);
@@ -96,14 +96,14 @@ const createCard = data => {
   doc.save(`./pdf/${data.title}.pdf`, saveCallback);
 };
 
-const pdfFolder = './pdf/';
-fs.readdir(pdfFolder, (err, files) => {
-  files.forEach(file => {
-    let pdfImage = new PDFImage('./pdf/'+file);
-    pdfImage.convertPage(0).then(imagePath => {
-     fs.existsSync("./pdf/"+file);
-    });
-  });
-});
+// const pdfFolder = './pdf/';
+// fs.readdir(pdfFolder, (err, files) => {
+//   files.forEach(file => {
+//     let pdfImage = new PDFImage('./pdf/'+file);
+//     pdfImage.convertPage(0).then(imagePath => {
+//      fs.existsSync("./pdf/"+file);
+//     });
+//   });
+// });
 
 module.exports.createCard = createCard;
