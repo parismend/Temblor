@@ -34,7 +34,9 @@ longitud=[''  for x in range(0,136)]
 
 Calle = waze['address']
 Colonia =  waze['additional_info']
+Estado = waze['city']
 Tipo_del_Danho = waze['pin_name']
+Verificado = waze['VERIFICADO']
 for x in range(0,len(Tipo_del_Danho)):
 	if (Tipo_del_Danho[x] == 'Zona de derrumbre'):
 		Tipo_del_Danho[x] = 'Derrumbe'
@@ -43,9 +45,12 @@ longitud = waze['lon']
 
 
 waze_n = pd.DataFrame({
+'',
+'',
 'Calle': Calle,
 'Colonia': Colonia,
 'Delegación': Delegación,
+'Estado' : Estado,
 'Foto': Foto,
 'Herramientas Faltantes': Herramientas_Faltantes,
 'Herramientas Sobrantes': Herramientas_Sobrantes,
@@ -53,9 +58,6 @@ waze_n = pd.DataFrame({
 'Hora del Reporte': Hora_Reporte,
 'Mano de Obra Faltante': Mano_Faltante,
 'Mano de Obra Sobrantes': Mano_Sobrantes,
-'Mano de Obra Sobrantes  [Row 2]': Mano_Sobrantes_Row_2,
-'Mano de Obra Sobrantes  [Row 3]': Mano_Sobrantes_Row_3,
-'Mano de Obra Sobrantes  [Row 4]': Mano_Sobrantes_Row_4,
 'Medicamentos Faltantes': Medicamentos_Faltantes,
 'Medicamentos Sobrantes': Medicamentos_Sobrantes,
 'Número Exterior  o Aproximado': Numero_Exterior_Aproximado,
@@ -68,6 +70,7 @@ waze_n = pd.DataFrame({
 'Tipo de Infraestructura': Tipo_de_Infraestructura,
 'Tipo de Uso': Tipo_de_Uso,
 'Tipo del Daño': Tipo_del_Danho,
+'Verificado' : Verificado,
 'Víveres Faltantes ': Viveres_Faltantes,
 'Víveres Sobrantes ': Viveres_Sobrantes,
 'latitud': latitud,
@@ -77,6 +80,9 @@ waze_n = pd.DataFrame({
 
 
 waze_n.to_csv('datos/waze.csv')
+
+
+
 
 
 
