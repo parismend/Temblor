@@ -1,6 +1,8 @@
 const jsPDF = require('node-jspdf');
 const fs = require('fs');
 const PDFImage = require("pdf-image").PDFImage;
+const d3 = require('d3');
+const csvUrl = 'https://docs.google.com/spreadsheets/d/e/2PACX-1vRvxlMpfCKHJ11vHpLkrkUszgLTYAQ0bAd3a_RSGX6Gr06cKWh8IOqBDrd9A9qiN8Y5wv9e1d01mK2d/pub?gid=352754790&single=true&output=csv';
 
 const saveCallback = err => {
   if (err)
@@ -94,17 +96,25 @@ const createCard = data => {
 
 //data.forEach(item => createCard(item));
 
-const pdfFolder = './pdf/';
+d3.csv(csvUrl, (err, data) => {
+    if (err)
+      console.log(err);
+
+    data.forEach(item => createCard(item));
+  }
+);
+
+/*const pdfFolder = './pdf/';
 
 fs.readdir(pdfFolder, (err, files) => {
   files.forEach(file => {
     console.log(file);
     let pdfImage = new PDFImage('./pdf/'+file);
     pdfImage.convertPage(0).then(function (imagePath) {
-     // 0-th page (first page) of the slide.pdf is available as slide-0.png 
-     fs.existsSync("./pdf/"+file) // => true 
+     // 0-th page (first page) of the slide.pdf is available as slide-0.png
+     fs.existsSync("./pdf/"+file) // => true
     });
   });
-})
+})*/
 
 module.exports.createCard = createCard;
