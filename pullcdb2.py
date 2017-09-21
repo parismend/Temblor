@@ -26,12 +26,12 @@ if __name__ == '__main__':
     df_nec = df_nec[df_nec.latlong.notnull()]
     latlong = [re.sub('\)', '', re.sub('POINT\(', '', str(x))).split()
                for x in df_nec.latlong.tolist()]
-    df_nec['latitud'] = [x[0] for x in latlong]
-    df_nec['longitud'] = [x[1] for x in latlong]
+    df_nec['latitud'] = [x[1] for x in latlong]
+    df_nec['longitud'] = [x[0] for x in latlong]
 
     # Tirar columnas no requeridas y convertir datetime
     df_nec = df_nec.drop(droplist, axis=1)
-    df_nec['Timestamp'] = df_nec['Timestamp'].apply(lambda x: datetime.datetime.strptime(x, '%Y-%m-%dT%H:%M:%SZ').strftime('%m/%d/%Y %H:%M:%S'))	
+    df_nec['Timestamp'] = df_nec['Timestamp'].apply(lambda x: datetime.datetime.strptime(x, '%Y-%m-%dT%H:%M:%SZ').strftime('%m/%d/%Y %H:%M:%S'))    
 
 
     # OFRECIDA
@@ -43,12 +43,12 @@ if __name__ == '__main__':
     df_vol = df_vol[df_vol.latlong.notnull()]
     latlong = [re.sub('\)', '', re.sub('POINT\(', '', str(x))).split()
                for x in df_vol.latlong.tolist()]
-    df_vol['latitud'] = [x[0] for x in latlong]
-    df_vol['longitud'] = [x[1] for x in latlong]
+    df_vol['latitud'] = [x[1] for x in latlong]
+    df_vol['longitud'] = [x[0] for x in latlong]
 
     # Tirar columnas no requeridas y convertir datetime
     df_vol = df_vol.drop(droplist, axis=1)
-    df_vol['Timestamp'] = df_vol['Timestamp'].apply(lambda x: datetime.datetime.strptime(x, '%Y-%m-%dT%H:%M:%SZ').strftime('%m/%d/%Y %H:%M:%S'))	
+    df_vol['Timestamp'] = df_vol['Timestamp'].apply(lambda x: datetime.datetime.strptime(x, '%Y-%m-%dT%H:%M:%SZ').strftime('%m/%d/%Y %H:%M:%S'))    
 
 
     # FORMS
@@ -58,6 +58,10 @@ if __name__ == '__main__':
 
     # Concatenar
     frames = [df_nec, df_vol, df_csv]
+
+    for i in range(len(frames)):
+        frames[i].columns = [x.strip() for x in frames[i].columns]
+
     danios = pd.concat(frames)
 
     # Info adicional
