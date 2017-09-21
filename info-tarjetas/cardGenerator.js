@@ -1,46 +1,8 @@
 const jsPDF = require('node-jspdf');
-
-const data = [
-  {
-    title: 'daño',
-    type: 'D',
-    falta: ['Medicina', 'Gaza', 'Palas', 'Agua'],
-    sobra: ['Comida'],
-    date: '20/9/17 12:30',
-    msg: 'Posible Derrumbe',
-    address: {
-      calle: 'Colima',
-      nro: 100,
-      col: 'Condesa'
-    }
-  },
-  {
-    title: 'albergue',
-    type: 'C',
-    falta: ['Medicina', 'Palas'],
-    sobra: ['Comida', 'Cuidado personal'],
-    date: '20/9/17 12:30',
-    msg: 'Se necesitan colchones',
-    address: {
-      calle: 'Juan Sanchez Ascona',
-      nro: 1635,
-      col: 'Del Valle'
-    }
-  },
-  {
-    title: 'acopio',
-    type: 'A',
-    falta: ['Medicina', 'Palas', 'Agua', 'Alcohol'],
-    sobra: ['Comida', 'Cuidado personal', 'Dinero'],
-    date: '20/9/17 12:30',
-    msg: 'Se necesita comida',
-    address: {
-      calle: 'Tokio',
-      nro: 317,
-      col: 'Portales Norte'
-    }
-  }
-];
+const fs = require('fs');
+const PDFImage = require("pdf-image").PDFImage;
+const d3 = require('d3');
+const csvUrl = 'https://docs.google.com/spreadsheets/d/e/2PACX-1vRvxlMpfCKHJ11vHpLkrkUszgLTYAQ0bAd3a_RSGX6Gr06cKWh8IOqBDrd9A9qiN8Y5wv9e1d01mK2d/pub?gid=352754790&single=true&output=csv';
 
 const saveCallback = err => {
   if (err)
@@ -48,24 +10,36 @@ const saveCallback = err => {
   console.log('Generated');
 };
 
-const setColorBytype = (type) => {
+const setColorBytype = type => {
   if (type === 'D')
     return [255, 72, 72];
   else
     return [0, 146, 69];
 };
 
-const createCard = (data) => {
+const setHexColorByType = type => {
+  if (type === 'D')
+    return '#ff4848';
+  else
+    return '#009245';
+};
+
+const createCard = data => {
   const c     = setColorBytype(data.type);
+  const hex   = setHexColorByType(data.type);
   const white = '#FFFFFF';
   const black = '#000000';
-  const gap = 7.5;
+  const gap   = 7.5;
 
   const doc = new jsPDF({
     orientation: 'portrait',
-    unit: 'cm',
-    format: [12, 10]
+    unit:        'cm',
+    format:      [12, 10]
   });
+
+  // base Rect
+  doc.setFillColor(255, 255, 255);
+  doc.rect(0, 0, 10, 12, 'F');
 
   // Tipo
   doc.setFillColor(c[0], c[1], c[2]);
@@ -75,11 +49,11 @@ const createCard = (data) => {
   doc.setTextColor(white);
   doc.setFontSize(16);
   doc.text(data.type, .3, .7);
-  
+
   // Hashtag
   doc.setTextColor(black);
   doc.text('#Verificado19S', 1.1, .8);
-  
+
   // Rectangulo fecha
   doc.setFillColor(c[0], c[1], c[2]);
   doc.rect(6.4, 0, 4, 1, 'F');
@@ -99,7 +73,7 @@ const createCard = (data) => {
   doc.text(data.msg, 1.2, 2.7);
 
   // Direccion
-  doc.setTextColor('#ff4848');
+  doc.setTextColor(hex);
   doc.setFontSize(16);
   doc.setFontStyle('bold');
   doc.text(`${data.address.calle} ${data.address.nro}`, 1.5, 4.5);
@@ -124,5 +98,25 @@ const createCard = (data) => {
   doc.save(`./pdf/${data.title}.pdf`, saveCallback);
 };
 
-data.forEach(item => createCard(item));
+//data.forEach(item => createCard(item));
+
+d3.csv(csvUrl, (err, data) => {
+    if (err)
+      console.log(err);
+
+    data.forEach(item => createCard(item));
+  }
+);
+
+/*const pdfFolder = './pdf/';
+fs.readdir(pdfFolder, (err, files) => {
+  files.forEach(file => {
+    let pdfImage = new PDFImage('./pdf/'+file);
+    pdfImage.convertPage(0).then(function (imagePath) {
+     // 0-th page (first page) of the slide.pdf is available as slide-0.png
+     fs.existsSync("./pdf/"+file) // => true
+    });
+  });
+})*/
+
 module.exports.createCard = createCard;
