@@ -42,12 +42,6 @@ const data = [
   }
 ];
 
-const doc = new jsPDF({
-  orientation: 'portrait',
-  unit: 'cm',
-  format: [12, 10]
-});
-
 const saveCallback = err => {
   if (err)
     console.log(err);
@@ -66,6 +60,12 @@ const createCard = (data) => {
   const white = '#FFFFFF';
   const black = '#000000';
   const gap = 7.5;
+
+  const doc = new jsPDF({
+    orientation: 'portrait',
+    unit: 'cm',
+    format: [12, 10]
+  });
 
   // Tipo
   doc.setFillColor(c[0], c[1], c[2]);
@@ -125,4 +125,4 @@ const createCard = (data) => {
 };
 
 data.forEach(item => createCard(item));
-// module.exports.createCard = createCard;
+module.exports.createCard = createCard;
