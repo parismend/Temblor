@@ -1,0 +1,6 @@
+docutils==0.14
+lockfile==0.12.2
+luigi==2.7.0
+pyspark==2.1.1+hadoop2.7
+python-daemon==2.1.2
+tornado==4.5.2
