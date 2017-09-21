@@ -1,4 +1,12 @@
 import luigi
+# from googlesheets.limpia_etl.googlesheets import get_Data_temblor
+from sengrid_handler import _send_error
+
+
+@luigi.Task.event_handler(luigi.Event.FAILURE)
+def sendgrid_handler(task, exception=None):
+    _send_error(task, exception)
+
 
 class LimpiaGoogleSheets(luigi.Task):
     update_id = luigi.Parameter()
@@ -7,13 +15,15 @@ class LimpiaGoogleSheets(luigi.Task):
     query_date = luigi.Parameter()
 
     def run(self):
-    	# print(self.google_secret,self.google_spreedsheet)
+        # NOTA: Descomentar para probar el envio de mails
+        # self.truena()
+
         with self.output().open('w') as output_file:
             output_file.write('Hola google')
 
     def output(self):
-    	print ("tmp/corrida_{}.csv")
-    	return luigi.LocalTarget("tmp/corrida_{}.csv".format(self.query_date))
+        # print ("tmp/corrida_{}.csv".format(self.query_date))
+        return luigi.LocalTarget("tmp/corrida_{}.csv".format(self.query_date))
 
 
 class RunAll(luigi.Task):
@@ -27,4 +37,6 @@ class RunAll(luigi.Task):
         return LimpiaGoogleSheets(**params)
 
     def output(self):
-    	return luigi.LocalTarget("tmp/_END")
+        return luigi.LocalTarget("tmp/_END")
+
+luigi.run()

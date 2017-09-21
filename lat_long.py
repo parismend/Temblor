@@ -20,7 +20,7 @@ def obtain_latlong(dirr):
 	lon = location.longitude
 	return lat,lon
 
-if __name__ : '__main__':
+if __name__ == '__main__':
 	dirr = dir_correct()
 	lat,lon = obtain_latlon(dirr)
 
