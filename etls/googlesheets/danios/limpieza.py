@@ -92,10 +92,6 @@ if __name__ == '__main__':
     path_manzanas = os.environ.get('PATH_MANZANAS')
 
     # path_save_danios = os.environ.get('PATH_DANIOS_SAVE')
-
-    path_danios = '/home/raul/Downloads/danios.csv'
-    path_manzanas = '/home/raul/Downloads/manzanas_inegi/man*.shp'
-
     df_danios = pd.read_csv(
         path_danios, parse_dates=['Timestamp'],
         dtype={
