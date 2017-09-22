@@ -21,3 +21,9 @@ tornado==4.5.2
 uritemplate==3.0.0
 urllib3==1.22
 tqdm
+geocoder==1.32.1
+Shapely==1.6.1
+Rtree==0.8.3
+Fiona==1.7.9.post1
+geopandas==0.3.0
+joblib==0.11
