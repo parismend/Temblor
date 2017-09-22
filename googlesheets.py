@@ -118,7 +118,7 @@ def insert_Data_temblor(datos):
                               discoveryServiceUrl=discoveryUrl)
     result = service.spreadsheets().values().get(
         spreadsheetId='1wLHf5ITtTsfErWoPHwhu7Vfy-96eQKKxZO2AmZbP9XY',
-        range='Datos!A1:H1500').execute()
+        range='Datos!A1:H10000').execute()
     values = result.get('values', [])
     if not values:
         print('No data found.')
