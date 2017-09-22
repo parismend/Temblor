@@ -20,3 +20,6 @@ pip install -r requirements.txt
 
 - *MAILGUN_API_KEY*: API KEY de la cuenta de Mailgun
 - *ETL_BOX_EMAIL*: Email destino de las alertas de error
+- *GOOGLE_API_KEY*: API KEY DE GOOLE
+- *PATH_DANIOS*: Path del archivo de danios intermedio
+- *PATH_MANZANAS*: Path de archivos de manzanas en gblob

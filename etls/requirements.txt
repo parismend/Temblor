@@ -4,3 +4,12 @@ luigi==2.7.0
 python-daemon==2.1.2
 tornado==4.5.2
 requests==2.18.4
+geocoder==1.32.1
+Shapely==1.6.1
+Rtree==0.8.3
+Fiona==1.7.9.post1
+geopandas==0.3.0
+joblib==0.11
+numpy==1.13.1
+pandas==0.20.3
+
