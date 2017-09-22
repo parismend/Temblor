@@ -52,11 +52,11 @@ def geocode_google(calle: str, numero: str, colonia: str,
 
 def make_google_request(row, google_key: str):
     calle: str = str(row.Calle)
-    numero: str = str(row.numero_exterior)
+    numero: str = str(row.NmeroExterioroAproximado)
     if numero.startswith('0'):
         numero = 'nan'
     colonia = str(row.Colonia)
-    delegacion: str = str(row.Delegacion)
+    delegacion: str = str(row.Delegacin)
     estado: str = str(row.Estado)
     address = concatenar_info_calle(calle, numero, colonia, delegacion, estado)
     if address is not None:
@@ -71,16 +71,12 @@ def make_google_request(row, google_key: str):
         for e in a_components:
             if 'street_number' in e['types']:
                 row['google_st_number'] = e['long_name']
-
             if 'route' in e['types']:
                 row['google_calle'] = e['long_name']
-
             if 'sublocality' in e['types']:
                 row['google_colonia'] = e['long_name']
-
             if 'administrative_area_level_1' in e['types']:
                 row['google_estado'] = e['long_name']
-
         coords = resp['geometry']['coordinates']
         row['google_lat'], row['google_lon'] = coords[1], coords[0]
         new_row = pd.DataFrame(row).T
@@ -96,18 +92,22 @@ if __name__ == '__main__':
     path_manzanas = os.environ.get('PATH_MANZANAS')
 
     # path_save_danios = os.environ.get('PATH_DANIOS_SAVE')
+
+    path_danios = '/home/raul/Downloads/danios.csv'
+    path_manzanas = '/home/raul/Downloads/manzanas_inegi/man*.shp'
+
     df_danios = pd.read_csv(
         path_danios, parse_dates=['Timestamp'],
         dtype={
-            'Calle': str, 'Colonia': str, 'Delegación': str, 'Estado': str,
-            'Número Exterior  o Aproximado': str
+            'Calle': str, 'Colonia': str, 'Delegacin': str, 'Estado': str,
+            'NmeroExterioroAproximado': str
         }
     )
     radius_buffer = 0.0001
-    df_danios = df_danios.assign(
-        numero_exterior=df_danios['Número Exterior  o Aproximado'],
-        Delegacion=df_danios['Delegación'],
-    )
+    # df_danios = df_danios.assign(
+    #     numero_exterior=df_danios['Número Exterior  o Aproximado'],
+    #     Delegacion=df_danios['Delegación'],
+    # )
     df_danios = df_danios.assign(fuente='')
     df_danios.loc[df_danios.Calle.isnull(), 'fuente'] = 'JSON'
     df_danios.loc[df_danios.Calle.isnull(), 'fuente'] = 'georref'
@@ -121,9 +121,9 @@ if __name__ == '__main__':
     df_google_danios = pd.concat(
         [row for row in df_google_danios if row is not None], ignore_index=True, axis=0
     )
-
     df_google_danios = df_google_danios[
-        df_google_danios.google_estado.isin(['Ciudad de México', 'Morelos', 'Puebla'])]
+        df_google_danios.google_estado.isin(['Ciudad de México', 'Morelos', 'Puebla'])
+    ]
     df_google_danios = df_google_danios.assign(
         google_calle=df_google_danios.google_calle.fillna(df_google_danios.Calle)
     )
@@ -165,18 +165,14 @@ if __name__ == '__main__':
         columns={'lat': 'latitud', 'lon': 'longitud'})
     limpio_danios = pd.DataFrame(limpio_danios)
     final_cols = [
-        'Calle', 'Colonia', 'Delegación', 'Estado', 'Foto', 'Herramientas Existentes',
-        'Herramientas Faltantes', 'Hora', 'Hora del Reporte', 'Mano de Obra Existente',
-        'Mano de Obra Faltante', 'Medicamentos Existentes', 'Medicamentos Faltantes',
-        'Número Exterior  o Aproximado', 'Número de Personas Atrapadas',
-        'Número de Personas Desaparecidas',
-        'Número de Personas Fallecidas', 'Número de Personas Lesionadas',
-        'Número de Personas Rescatadas',
-        'Otra Referencia de Ubicación', 'Timestamp', 'Tipo Daño', 'Tipo de Infraestructura',
-        'Tipo de Uso',
-        'Tipo del Daño', 'Verificado', 'Víveres Existentes', 'Víveres Faltantes',
-        'Víveres Sobrantes',
-        'latitud', 'longitud'
+        'Calle', 'Colonia', 'Delegacin', 'EspecialistasFaltantesseparaporcomas', 'Estado', 'Foto',
+        'HerramientasExistentes', 'HerramientasFaltantes', 'Hora', 'HoradelReporte',
+        'ManodeObraExistente', 'ManodeObraFaltante', 'MedicamentosExistentes',
+        'MedicamentosFaltantes', 'Municipio', 'NmeroExterioroAproximado',
+        'NmerodePersonasAtrapadas', 'NmerodePersonasDesaparecidas', 'NmerodePersonasFallecidas',
+        'NmerodePersonasLesionadas', 'NmerodePersonasRescatadas', 'OtraReferenciadeUbicacin',
+        'Timestamp', 'TipoDao', 'TipodeInfraestructura', 'TipodeUso', 'TipodelDao', 'Verificado',
+        'VveresExistentes', 'VveresFaltantes', 'VveresSobrantes', 'latitud', 'longitud'
     ]
     limpio_danios = limpio_danios.loc[:, final_cols]
     print('Writing output')
