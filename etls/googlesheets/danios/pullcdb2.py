@@ -1,6 +1,5 @@
-# -*- coding: utf-8 -*-
 import re
-import datetime
+import time
 import pandas as pd
 import urllib.request, json, datetime
 
@@ -73,8 +72,7 @@ if __name__ == '__main__':
     bs_csv = pd.read_csv('bici_squad.csv', header=0)
     bs_csv = bs_csv.drop(['Unnamed: 0'], axis=1)
     bs_csv['Foto'] = ''
-    bs_csv['Hora'] = re.match('[ \d:\-]*(?!=\.)', 
-                              str(datetime.datetime.now()))[0]
+    bs_csv['Hora'] = time.time()
 
     # Concatenar
     frames = [df_nec, df_vol, df_csv, bs_csv]
@@ -98,4 +96,5 @@ if __name__ == '__main__':
 
     # Guardar a csv
     filename = 'danios.csv'
+    danios.columns = [re.sub('[^A-Z^a-z]', '', x) for x in danios.columns]
     danios.to_csv(filename, index=False, encoding='utf-8')
