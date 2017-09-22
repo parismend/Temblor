@@ -1,8 +1,12 @@
 cd /home/ubuntu/Temblor/etls
+echo "corremos todo sobre pyenv local 3.6.1"
+PATH=$PATH:/home/ubuntu/.pyenv/shims/:/home/ubuntu/.pyenv/bin/:/home/ubuntu/google-cloud-sdk/bin
+export PATH
+
+pyenv local 3.6.1
+
 export HOME=/home/ubuntu
 #PATH=$PATH:/usr/local/bin
-PATH=$PATH:/home/ubuntu/.pyenv/shims/
-export PATH
 echo $PATH
 
 fecha=`date +%s`
@@ -10,15 +14,17 @@ fecha=`date +%s`
 python --version > /home/ubuntu/version
 echo "esta por comenzar todo.....chan chaaaaan!!!"
 python googlesheets/danios/googlesheets.py
+python googlesheets/danios/bici_squad.py
+python googlesheets/danios/pullcdb2.py
+echo 'Se generó danios.csv'
 
-echo "renombramos archivos"
-mv datos.csv danios$fecha.csv
-cp danios$fecha.csv danios.csv
+echo "cambiamos a python 2.7.12 para poder usar gcloud"
+pyenv local 2.7.12
 
-cd
 echo "Vamos a subir todo a google"
-./gdrive upload --delete -p 0BxE-J-cXPDSDUzRBNDI4eUN3UGs Temblor/etls/danios$fecha.csv
+gsutil -m cp danios.csv gs://sismocdmx/danios/
+gsutil -m cp danios.csv gs://sismocdmx/danios/danios$fecha.csv
+bq load --replace --autodetect --source_format CSV --skip_leading_rows 1 sismocdmx.danios gs://sismocdmx/danios/danios.csv
 
-echo "subimos la copia"
-./gdrive upload --delete -p 0ByAjybdB6DdxOUxfYm9fbDdaNlU Temblor/etls/danios.csv
-echo "termino..."
+echo "eliminamos archivo local y terminamos"
+rm danios.csv datos.csv bici_squad.csv

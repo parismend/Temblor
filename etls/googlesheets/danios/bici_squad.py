@@ -92,7 +92,7 @@ def get_Data_temblor():
     # DAÑOS Y DERRUMBES VERIFICADOS
     # Para descargar otras páginas cambiar el onmbre en el campo range
     result = service.spreadsheets().values().get(
-        spreadsheetId='1CC5BqKv7Pqx5V2wtoJUNN7fOGOPtFyT5XOhSjfVhai8',
+        spreadsheetId='1i__c44wIg760LmxZcM8oTjDR0cGFVdL9YrjbCcb9Op0',
         range='Form Responses 1!A1:AH10000').execute()
     values = result.get('values', [])
     if not values:
@@ -118,7 +118,7 @@ def insert_Data_temblor(datos):
                               discoveryServiceUrl=discoveryUrl)
     result = service.spreadsheets().values().get(
         spreadsheetId='1wLHf5ITtTsfErWoPHwhu7Vfy-96eQKKxZO2AmZbP9XY',
-        range='Datos!A1:H10000').execute()
+        range='Datos!A1:H1000').execute()
     values = result.get('values', [])
     if not values:
         print('No data found.')
@@ -176,4 +176,4 @@ if __name__ == '__main__':
     info_pub['Tipo del Daño'] = info_pub['Tipo Daño']
     info_pub.drop('Tipo Daño', axis=1)
 
-    info_pub.to_csv('datos.csv')
+    info_pub.to_csv('bici_squad.csv')
