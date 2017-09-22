@@ -30,14 +30,14 @@ def dir_correct(calle, numero, ciudad, estado):
     k = []
     k.append(calle + ' ' + numero)
     k.append(ciudad)
-    k.append(estado)
+    k.append(estado + ', ' + 'MX')
     dirr = ', '.join(k)
     return dirr
 
 
 def obtain_latlong(dirr):
     try:
-        location = geolocator.geocode(dirr)
+        location = geolocator.geocode(dirr, region='MX')
         lat = location.latitude
         lon = location.longitude
     except:
@@ -124,7 +124,7 @@ if __name__ == '__main__':
 
     calles = info_pub['Calle'].tolist()
     numeros = info_pub['Número o Aproximado'].tolist()
-    munis = info_pub['Municipio'].tolist()
+    munis = info_pub['Delegación o municipio'].tolist()
     estados = info_pub['Estado'].tolist()
     lati = []
     longi = []
