@@ -124,7 +124,7 @@ if __name__ == '__main__':
 
     calles = info_pub['Calle'].tolist()
     numeros = info_pub['Número o Aproximado'].tolist()
-    munis = info_pub['Delegación o municipio'].tolist()
+    munis = info_pub['Municipio'].tolist()
     estados = info_pub['Estado'].tolist()
     lati = []
     longi = []

@@ -97,4 +97,4 @@ if __name__ == '__main__':
     # Guardar a csv
     filename = 'danios.csv'
     danios.columns = [re.sub('[^A-Z^a-z]', '', x) for x in danios.columns]
-    danios.to_csv(filename, index=False, encoding='utf-8')
+    danios[~danios.latitud.isnull()].to_csv(filename, index=False, encoding='utf-8')
