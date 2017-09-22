@@ -1,5 +1,5 @@
 cd /home/ubuntu/Temblor/etls/googlesheets/albergue
-source /home/ubuntu/secrets.key
+source /home/ubuntu/secrets.sh
 echo "corremos todo sobre pyenv local 3.6.1"
 PATH=$PATH:/home/ubuntu/.pyenv/shims/:/home/ubuntu/.pyenv/bin/:/home/ubuntu/google-cloud-sdk/bin
 export PATH

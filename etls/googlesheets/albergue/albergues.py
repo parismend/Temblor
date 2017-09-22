@@ -23,7 +23,6 @@ SCOPES = 'https://www.googleapis.com/auth/spreadsheets.readonly'
 CLIENT_SECRET_FILE = 'creds/secreto_cliente.json'
 APPLICATION_NAME = 'Temblor'
 geolocator = GoogleV3(api_key=os.environ.get('GM_KEY'))
-print(geolocator)
 
 # Dirección debe ser de la forma "Num Calle Ciudad"
 def dir_correct(calle, numero):
@@ -43,6 +42,7 @@ def obtain_latlong(dirr):
     except:
         lat = ''
         lon = ''
+    print(lat,lon)
     return lat, lon
 
 
@@ -115,13 +115,13 @@ def estructura_sheet(listas):
 
 
 if __name__ == '__main__':
+    print("credenciales",os.environ.get('GM_KEY'))
     data = get_Data_temblor()
     info = estructura_sheet(data)
     info_pub = info.drop([
         'Nombre del contacto (esta información no se ha pública)',
         'Teléfono (esta información no se hará pública)'],
-        axis=1)
-
+        axis=1).head(10)
     calles = info_pub['Calle'].tolist()
     numeros = info_pub['Número o Aproximado'].tolist()
     lati = []
@@ -139,4 +139,4 @@ if __name__ == '__main__':
     info_pub['longitud'] = longi
     info_pub['Hora'] = time.time()
     info_pub.columns = [re.sub('[^A-Z^a-z]', '', x) for x in info_pub.columns]
-    info_pub.to_csv('albergues.csv')
+    info_pub.to_csv('albergues.csv',quoting=1,encoding="utf-8")
