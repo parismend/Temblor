@@ -1,6 +1,6 @@
 # Correr desde HOME
 import re
-import datetime
+import time
 from apiclient import discovery
 from oauth2client import client
 from oauth2client import tools
@@ -135,6 +135,5 @@ if __name__ == '__main__':
     info_pub.columns = [x[0:60] for x in info_pub.columns]
     info_pub['latitud'] = lati
     info_pub['longitud'] = longi
-    info_pub['Hora'] = re.match('[ \d:\-]*(?!=\.)',
-                                str(datetime.datetime.now()))[0]
+    info_pub['Hora'] = time.time()
     info_pub.to_csv('albergues.csv')
