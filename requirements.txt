@@ -20,3 +20,4 @@ six==1.11.0
 tornado==4.5.2
 uritemplate==3.0.0
 urllib3==1.22
+tqdm

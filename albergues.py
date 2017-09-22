@@ -8,7 +8,8 @@ from oauth2client.file import Storage
 import pandas as pd
 import os
 import httplib2
-from geopy.geocoders import Nominatim
+from geopy.geocoders import GoogleV3
+import tqdm
 
 try:
     import argparse
@@ -21,7 +22,7 @@ except ImportError:
 SCOPES = 'https://www.googleapis.com/auth/spreadsheets.readonly'
 CLIENT_SECRET_FILE = 'creds/secreto_cliente.json'
 APPLICATION_NAME = 'Temblor'
-geolocator = Nominatim()
+geolocator = GoogleV3(api_key=os.environ.get('GM_KEY'))
 
 
 # Dirección debe ser de la forma "Num Calle Ciudad"
@@ -125,7 +126,8 @@ if __name__ == '__main__':
     numeros = info_pub['Número o Aproximado'].tolist()
     lati = []
     longi = []
-    for i in range(info_pub.shape[0]):
+    print('Punteando...')
+    for i in tqdm.tqdm(range(info_pub.shape[0])):
         lat_aux, lon_aux = obtain_latlong(dir_correct(
             calles[i], numeros[i]))
         lati.append(lat_aux)
