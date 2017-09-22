@@ -23,7 +23,7 @@ SCOPES = 'https://www.googleapis.com/auth/spreadsheets.readonly'
 CLIENT_SECRET_FILE = 'creds/secreto_cliente.json'
 APPLICATION_NAME = 'Temblor'
 geolocator = GoogleV3(api_key=os.environ.get('GM_KEY'))
-
+print(geolocator)
 
 # Dirección debe ser de la forma "Num Calle Ciudad"
 def dir_correct(calle, numero):
