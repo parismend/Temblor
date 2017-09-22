@@ -136,5 +136,5 @@ if __name__ == '__main__':
     info_pub['latitud'] = lati
     info_pub['longitud'] = longi
     info_pub['Hora'] = re.match('[ \d:\-]*(?!=\.)',
-                                str(datetime.datetime.now()))
+                                str(datetime.datetime.now()))[0]
     info_pub.to_csv('albergues.csv')
