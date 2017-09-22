@@ -23,6 +23,7 @@ pyenv local 2.7.12
 echo "Vamos a subir todo a google"
 gsutil -m cp danios.csv gs://sismocdmx/danios/
 gsutil -m cp danios.csv gs://sismocdmx/danios/danios$fecha.csv
+gsutil acl ch -u AllUsers:R gs://sismocdmx/danios/danios.csv
 bq load --replace --autodetect --source_format CSV --skip_leading_rows 1 sismocdmx.danios gs://sismocdmx/danios/danios.csv
 
 echo "eliminamos archivo local y terminamos"
