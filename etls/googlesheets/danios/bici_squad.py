@@ -1,3 +1,4 @@
+# -*- coding: utf-8 -*-
 # Correr desde HOME
 import re
 from apiclient import discovery
@@ -24,7 +25,7 @@ APPLICATION_NAME = 'Temblor'
 geolocator = Nominatim()
 
 
-# Direcci√≥n debe ser de la forma "Num Calle Ciudad"
+# Direccio≥n debe ser de la form Num Calle Ciuda
 def dir_correct(calle, numero):
     k = []
     k.append(numero)

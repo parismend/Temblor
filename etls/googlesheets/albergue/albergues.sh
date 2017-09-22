@@ -1,4 +1,4 @@
-cd /home/ubuntu/Temblor/etls
+cd /home/ubuntu/Temblor/etls/googlesheets/albergue
 echo "corremos todo sobre pyenv local 3.6.1"
 PATH=$PATH:/home/ubuntu/.pyenv/shims/:/home/ubuntu/.pyenv/bin/:/home/ubuntu/google-cloud-sdk/bin
 export PATH
@@ -13,7 +13,7 @@ fecha=`date +%s`
 
 python --version > /home/ubuntu/version
 echo "esta por comenzar todo.....chan chaaaaan!!!"
-python googlesheets/albergue/albergues.py
+python albergues.py
 
 echo "cambiamos a python 2.7.12 para poder usar gcloud"
 pyenv local 2.7.12
