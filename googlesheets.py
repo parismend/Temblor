@@ -11,6 +11,10 @@ from geopy.geocoders import GoogleV3
 from Dicc_Tipo_Danhos import camb_tipos
 import tqdm
 
+
+print("Hola ETL")
+print(os.getcwd())
+
 try:
     import argparse
     flags = argparse.ArgumentParser(parents=[tools.argparser]).parse_args()

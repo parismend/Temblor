@@ -13,7 +13,7 @@ export HOME=/home/ubuntu
 echo $PATH
 
 fecha=`date +%s`
-
+echo pwd
 echo "esta por comenzar todo.....chan chaaaaan!!!"
 python googlesheets.py
 python bici_squad.py
