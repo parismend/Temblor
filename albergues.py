@@ -136,4 +136,5 @@ if __name__ == '__main__':
     info_pub['latitud'] = lati
     info_pub['longitud'] = longi
     info_pub['Hora'] = time.time()
+    info_pub.columns = [re.sub(' ', '', x) for x in info_pub.columns]
     info_pub.to_csv('albergues.csv')
