@@ -25,7 +25,7 @@ echo "cambiamos a python 2.7.12 para poder usar gcloud"
 pyenv local 2.7.12
 
 echo "Vamos a subir todo a google"
-gsutil -m cp danios_clean.csv gs://sismocdmx/danios/
+gsutil -m cp danios_clean.csv gs://sismocdmx/danios/danios_clean.csv
 # gsutil -m cp danios_clean.csv gs://sismocdmx/danios/danios_clean$fecha.csv
 # bq load --replace --autodetect --source_format CSV --skip_leading_rows 1 sismocdmx.danios gs://sismocdmx/danios/danios.csv
 
