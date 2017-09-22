@@ -122,7 +122,7 @@ if __name__ == '__main__':
         axis=1)
 
     calles = info_pub['Calle'].tolist()
-    numeros = info_pub['Número'].tolist()
+    numeros = info_pub['Número o Aproximado'].tolist()
     lati = []
     longi = []
     for i in range(info_pub.shape[0]):
