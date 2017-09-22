@@ -10,6 +10,10 @@ import httplib2
 from geopy.geocoders import Nominatim
 from Dicc_Tipo_Danhos import camb_tipos
 
+
+print("Hola ETL")
+print(os.getcwd())
+
 try:
     import argparse
     flags = argparse.ArgumentParser(parents=[tools.argparser]).parse_args()
