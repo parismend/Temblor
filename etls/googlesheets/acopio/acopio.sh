@@ -25,4 +25,4 @@ gsutil acl ch -u AllUsers:R gs://sismocdmx/acopio/acopio.csv
 bq load --replace --autodetect --source_format CSV --skip_leading_rows 1 sismocdmx.acopio gs://sismocdmx/acopio/acopio.csv
 
 echo "eliminamos archivo local y terminamos"
-rm acopio.csv datos.csv bici_squad.csv
+rm acopio.csv
