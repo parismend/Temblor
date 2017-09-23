@@ -8,6 +8,11 @@ import pandas as pd
 import os
 import httplib2
 from geopy.geocoders import Nominatim
+from Dicc_Tipo_Danhos import camb_tipos
+
+
+print("Hola ETL")
+print(os.getcwd())
 
 try:
     import argparse
@@ -24,11 +29,11 @@ geolocator = Nominatim()
 
 
 # Dirección debe ser de la forma "Num Calle Ciudad"
-def dir_correct(calle, numero,ciudad):
+def dir_correct(calle, numero):
     k = []
     k.append(numero)
     k.append(calle)
-    k.append(ciudad)
+    k.append('cdmx')
     dirr = ' '.join(k)
     return dirr
 
@@ -117,7 +122,7 @@ def insert_Data_temblor(datos):
                               discoveryServiceUrl=discoveryUrl)
     result = service.spreadsheets().values().get(
         spreadsheetId='1wLHf5ITtTsfErWoPHwhu7Vfy-96eQKKxZO2AmZbP9XY',
-        range='Datos!A1:H1500').execute()
+        range='Datos!A1:H10000').execute()
     values = result.get('values', [])
     if not values:
         print('No data found.')
@@ -137,7 +142,6 @@ def estructura_sheet(listas):
 
 
 if __name__ == '__main__':
-    print ("inicia!")
     data = get_Data_temblor()
     info = estructura_sheet(data)
     info_pub = info.drop([
@@ -147,16 +151,17 @@ if __name__ == '__main__':
 
     calles = info_pub['Calle'].tolist()
     numeros = info_pub['Número Exterior  o Aproximado (escribe sólo el número)'].tolist()
-    ciudades = info_pub['Estado'].tolist()
+    # coordenadas
     lati = []
     longi = []
     for i in range(info_pub.shape[0]):
         lat_aux, lon_aux = obtain_latlong(dir_correct(
-            calles[i], numeros[i], ciudades[i]))
+            calles[i], numeros[i]))
         lati.append(lat_aux)
         longi.append(lon_aux)
     info_pub['latitud'] = lati
     info_pub['longitud'] = longi
+
     info_pub.columns = [re.sub('[<>{}\|]', '', x) for x in info_pub.columns]
     info_pub.columns = [re.sub('\(.*\)', '', x) for x in info_pub.columns]
     info_pub.columns = [x[0:60] for x in info_pub.columns]
@@ -165,4 +170,14 @@ if __name__ == '__main__':
         info_pub.loc[info_pub[col] == '', col] = 'Si tienes info entra a: http://bit.ly/Verificado19s'
     for col in info_pub.columns[info_pub.columns.str.contains('obra')]:
         info_pub.loc[info_pub[col] == '', col] = 'Si tienes info entra a: http://bit.ly/Verificado19s'
+
+    dicc_danios = camb_tipos()
+
+    info_pub = info_pub.merge(pd.DataFrame({
+        'Tipo del Daño': list(dicc_danios.keys()),
+        'Tipo Daño': list(dicc_danios.values())}))
+
+    info_pub['Tipo del Daño'] = info_pub['Tipo Daño']
+    info_pub.drop('Tipo Daño', axis=1)
+
     info_pub.to_csv('datos.csv')

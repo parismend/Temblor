@@ -1,4 +1,6 @@
 import re
+import math
+import time
 import pandas as pd
 import urllib.request, json, datetime
 
@@ -10,6 +12,19 @@ def descarga_pandas(link):
         for dictionary in data['rows']:
             df = df.append(dictionary, ignore_index=True)
         return df
+
+
+def distancia(lat1, lon1, lat2, lon2):
+    radius = 6371  # km
+    dlat = math.radians(lat2 - lat1)
+    dlon = math.radians(lon2 - lon1)
+    a = math.sin(dlat / 2) * math.sin(dlat / 2) + \
+        math.cos(math.radians(lat1)) * \
+        math.cos(math.radians(lat2)) * math.sin(dlon / 2) * \
+        math.sin(dlon / 2)
+    c = 2 * math.atan2(math.sqrt(a), math.sqrt(1 - a))
+    d = radius * c
+    return d
 
 
 if __name__ == '__main__':
@@ -68,9 +83,13 @@ if __name__ == '__main__':
     # Abrir el CSV
     df_csv = pd.read_csv('datos.csv', header=0, skiprows=[1, 1])
     df_csv = df_csv.drop(['Unnamed: 0', 'Unnamed: 1'], axis=1)
+    bs_csv = pd.read_csv('bici_squad.csv', header=0)
+    bs_csv = bs_csv.drop(['Unnamed: 0'], axis=1)
+    bs_csv['Foto'] = ''
+    bs_csv['Hora'] = time.time()
 
     # Concatenar
-    frames = [df_nec, df_vol, df_csv]
+    frames = [df_nec, df_vol, df_csv, bs_csv]
 
     for i in range(len(frames)):
         frames[i].columns = [x.strip() for x in frames[i].columns]
@@ -79,16 +98,24 @@ if __name__ == '__main__':
 
     # Info adicional
     for col in danios.columns[danios.columns.str.contains('alta')]:
-        danios.loc[danios[col] == '',
-                   col] = 'Si tienes info entra a: http://bit.ly/Verificado19s'
+#        danios.loc[danios[col] == '',
+#                   col] = 'Si tienes info entra a: http://bit.ly/Verificado19s'
         danios.loc[danios[col].isnull(),
                    col] = 'Si tienes info entra a: http://bit.ly/Verificado19s'
     for col in danios.columns[danios.columns.str.contains('obra')]:
-        danios.loc[danios[col] == '',
-                   col] = 'Si tienes info entra a: http://bit.ly/Verificado19s'
+#        danios.loc[danios[col] == '',
+#                   col] = 'Si tienes info entra a: http://bit.ly/Verificado19s'
         danios.loc[danios[col].isnull(),
                    col] = 'Si tienes info entra a: http://bit.ly/Verificado19s'
 
     # Guardar a csv
     filename = 'danios.csv'
-    danios.to_csv(filename, index=False, encoding='utf-8')
+    danios.columns = [re.sub('[^A-Z^a-z]', '', x) for x in danios.columns]
+    danios = danios[~danios.latitud.isnull()]
+    dist = []
+    for i, row in danios.iterrows():
+        dist.append(distancia(float(row.latitud), float(row.longitud),
+                              19.3730816, -99.1374631))
+    danios['dist'] = dist
+    (danios[danios.dist < 300].drop('dist', axis=1).
+        to_csv(filename, index=False, encoding='utf-8'))
