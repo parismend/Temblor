@@ -88,14 +88,14 @@ if __name__ == '__main__':
     path_danios = os.environ.get('PATH_DANIOS')
     # ALGO ASI '../../../datos/manzanas_inegi/man*.shp'
     path_manzanas = os.environ.get('PATH_MANZANAS')
-
+    print(path_manzanas,path_danios)
     # path_save_danios = os.environ.get('PATH_DANIOS_SAVE')
     df_danios = pd.read_csv(
-        path_danios, parse_dates=['Timestamp'],
-        dtype={
-            'Calle', 'Colonia', 'Delegacin', 'Estado',
-            'NmeroExterioroAproximado'
-        }
+        path_danios, parse_dates=['Timestamp']#,
+        #dtype={
+        #    'Calle', 'Colonia', 'Delegacin', 'Estado',
+        #    'NmeroExterioroAproximado'
+        #}
     )
     radius_buffer = 0.0001
     # df_danios = df_danios.assign(
