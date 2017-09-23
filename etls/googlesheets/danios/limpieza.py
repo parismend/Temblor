@@ -4,7 +4,6 @@ import glob
 import geocoder
 import pandas as pd
 import geopandas as gpd
-from pathlib import Path
 from joblib import Parallel, delayed
 from shapely.geometry import Point
 # se tiene que instalar también libspatialindex y rtree
@@ -86,7 +85,6 @@ def make_google_request(row, google_key):
 if __name__ == '__main__':
     google_key = os.environ.get('GOOGLE_API_KEY')
     path_danios = os.environ.get('PATH_DANIOS')
-
     # ALGO ASI '../../../datos/manzanas_inegi/man*.shp'
     path_manzanas = os.environ.get('PATH_MANZANAS')
 
@@ -94,8 +92,8 @@ if __name__ == '__main__':
     df_danios = pd.read_csv(
         path_danios, parse_dates=['Timestamp'],
         dtype={
-            'Calle', 'Colonia', 'Delegacin', 'Estado',
-            'NmeroExterioroAproximado'
+            'Calle': str, 'Colonia': str, 'Delegacin': str, 'Estado': str,
+            'NmeroExterioroAproximado': str
         }
     )
     radius_buffer = 0.0001

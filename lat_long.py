@@ -11,7 +11,6 @@ def dir_correct(calle, numero, ciudad):
 	k.append(ciudad)
 	dirr =' '.join(k)
 	return dirr
-	
 
 
 def obtain_latlong(dirr):
@@ -24,5 +23,3 @@ if __name__ == '__main__':
 	dirr = dir_correct()
 	lat,lon = obtain_latlon(dirr)
 
-
-	
