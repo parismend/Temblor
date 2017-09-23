@@ -112,7 +112,7 @@ if __name__ == '__main__':
 data = get_Data_temblor()
 harvard_mit = estructura_sheet(data)
 
-#harvard_mit = pd.read_csv('/Users/parismendez/Desktop/Manos.csv')
+harvard_mit = pd.read_csv('/Users/parismendez/Desktop/Manos.csv')
 
 
 Calle = [''  for x in range(0,len(harvard_mit))]
@@ -169,36 +169,36 @@ longitud = harvard_mit['Longitude']
 Har_Mit = pd.DataFrame({
 'Calle': Calle,
 'Colonia': Colonia,
-'Delegación': Delegacion,
+'Delegacion': Delegacion,
 'Estado' : Estado,
 'Foto': Foto,
-'Herramientas Faltantes': Herramientas_Faltantes,
-'Herramientas Sobrantes': Herramientas_Sobrantes,
+'HerramientasFaltantes': Herramientas_Faltantes,
+'HerramientasSobrantes': Herramientas_Sobrantes,
 'Hora': Hora,
-'Hora del Reporte': Hora_Reporte,
-'Mano de Obra Faltante': Mano_Faltante,
-'Mano de Obra Sobrantes': Mano_Sobrantes,
-'Medicamentos Faltantes': Medicamentos_Faltantes,
-'Medicamentos Sobrantes': Medicamentos_Sobrantes,
-'Número Exterior  o Aproximado': Numero_Exterior_Aproximado,
-'Número de Personas Atrapadas': Numero_Personas_Atrapadas,
-'Número de Personas Desaparecidas': Numero_Personas_Desaparecidas,
-'Número de Personas Fallecidas': Numero_Personas_Fallecidas,
-'Número de Personas Lesionadas': Numero_Personas_Lesionadas,
-'Número de Personas Rescatadas': Numero_Personas_Rescatadas,
-'Otra Referencia de Ubicación ': Otra_Referencia_Ubicacion,
+'HoraDelReporte': Hora_Reporte,
+'ManoDeObraFaltante': Mano_Faltante,
+'ManoDeObraSobrantes': Mano_Sobrantes,
+'MedicamentosFaltantes': Medicamentos_Faltantes,
+'MedicamentosSobrantes': Medicamentos_Sobrantes,
+'NumeroExteriorOAproximado': Numero_Exterior_Aproximado,
+'NumeroDePersonasAtrapadas': Numero_Personas_Atrapadas,
+'NumeroDePersonasDesaparecidas': Numero_Personas_Desaparecidas,
+'NumeroDePersonasFallecidas': Numero_Personas_Fallecidas,
+'NumeroDePersonasLesionadas': Numero_Personas_Lesionadas,
+'NumeroDePersonasRescatadas': Numero_Personas_Rescatadas,
+'OtraReferenciaDeUbicación ': Otra_Referencia_Ubicacion,
 'Timestamp' : Timestamp,
-'Tipo de Infraestructura': Tipo_Infraestructura,
-'Tipo de Uso': Tipo_de_Uso,
-'Tipo del Daño': Tipo_del_Danio,
+'TipoDeInfraestructura': Tipo_Infraestructura,
+'TipoDeUso': Tipo_de_Uso,
+'TipoDelDano': Tipo_del_Danio,
 'Verificado' : Verificado,
-'Víveres Faltantes ': Viveres_Faltantes,
-'Víveres Sobrantes ': Viveres_Sobrantes,
+'ViveresFaltantes ': Viveres_Faltantes,
+'ViveresSobrantes ': Viveres_Sobrantes,
 'latitud': latitud,
 'longitud': longitud
 	})
 
 Har_Mit.drop(Har_Mit.index[0])
 
-Har_Mit.to_csv('Harvard_MIT.csv')
+Har_Mit.to_csv('/Users/parismendez/Desktop/Harvard_MIT.csv')
 
