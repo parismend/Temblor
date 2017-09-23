@@ -71,8 +71,8 @@ def get_Data_temblor():
     # DAÑOS Y DERRUMBES VERIFICADOS
     # Para descargar otras páginas cambiar el onmbre en el campo range
     result = service.spreadsheets().values().get(
-        spreadsheetId='1Te3qe0BXvQiO8nNd5zemrYdEQjARaWeKRzwUm2XQwsI',
-        range='Respuestas de formulario 1!A1:W1000').execute()
+        spreadsheetId='1AHS_GXYmPViXmcvWO57GxyiyipYjHnUk70mrrwTIdV4',
+        range='Form Responses 1!A1:V1000').execute()
     values = result.get('values', [])
     if not values:
         print('No data found.')
@@ -137,7 +137,9 @@ def estructura_sheet(listas):
 
 if __name__ == '__main__':
     acopio = get_Data_temblor()
-    acopio = estructura_sheet(acopio)
+    acopio = estructura_sheet(acopio).drop([
+        'Nombre del contacto (esta información no se ha pública)',
+        'Teléfono (esta información no se hará pública)'], axis=1)
     calles = acopio['Calle'].tolist()
     numeros = acopio['Número (aproximado al menos)'].tolist()
     munis = acopio['Delegación o municipio'].tolist()

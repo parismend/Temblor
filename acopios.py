@@ -137,7 +137,9 @@ def estructura_sheet(listas):
 
 if __name__ == '__main__':
     acopio = get_Data_temblor()
-    acopio = estructura_sheet(acopio)
+    acopio = estructura_sheet(acopio).drop([
+        'Nombre del contacto (esta información no se ha pública)',
+        'Teléfono (esta información no se hará pública)'], axis=1)
     calles = acopio['Calle'].tolist()
     numeros = acopio['Número (aproximado al menos)'].tolist()
     munis = acopio['Delegación o municipio'].tolist()
