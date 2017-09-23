@@ -93,8 +93,8 @@ def get_Data_temblor():
     # DAÑOS Y DERRUMBES VERIFICADOS
     # Para descargar otras páginas cambiar el onmbre en el campo range
     result = service.spreadsheets().values().get(
-        spreadsheetId='1iZWfqPskSZkp35NRb-6vaxoZY6ErQ5LP77pqzlUjX5Y',
-        range='Form Responses 1!A1:AH10000').execute()
+        spreadsheetId='1ISw9WtEOFqSRSoVV9ty40Xp0i7Z_Ymc-lrnx1Exgub4',
+        range='Form Responses 1!A1:AR1000').execute()
     values = result.get('values', [])
     if not values:
         print('No data found.')
@@ -123,7 +123,7 @@ if __name__ == '__main__':
         axis=1)
 
     calles = info_pub['Calle'].tolist()
-    numeros = info_pub['Número o Aproximado'].tolist()
+    numeros = info_pub['Número'].tolist()
     munis = info_pub['Delegación o municipio'].tolist()
     estados = info_pub['Estado'].tolist()
     lati = []
