@@ -1,3 +1,7 @@
+"""
+Este módulo maneja la autenticación con Google,
+y lee e inserta datos en un Spreadsheet.
+"""
 # Correr desde HOME
 import re
 from apiclient import discovery
