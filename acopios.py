@@ -154,4 +154,4 @@ if __name__ == '__main__':
     acopio.columns = [re.sub('[ <>{}\|]', '', x) for x in acopio.columns]
     acopio.columns = [re.sub('\(.*\)', '', x) for x in acopio.columns]
     acopio.columns = [re.sub('[^A-Z^a-z]', '', x) for x in acopio.columns]
-    acopio[acopio.latitud != ''].to_csv('acopios.csv', encoding='utf-8')
+    acopio[acopio.latitud != ''].to_csv('acopio.csv', encoding='utf-8')
