@@ -84,8 +84,6 @@ if __name__ == '__main__':
 
     # FORMS
     # Abrir el CSV
-    df_csv = pd.read_csv('datos.csv', header=0, skiprows=[1, 1])
-    df_csv = df_csv.drop(['Unnamed: 0', 'Unnamed: 1'], axis=1)
     bs_csv = pd.read_csv('bici_squad.csv', header=0)
     bs_csv = bs_csv.drop(['Unnamed: 0'], axis=1)
     bs_csv['Foto'] = ''
@@ -94,11 +92,15 @@ if __name__ == '__main__':
     # Concatenar
     if descifra:
         if crowdsource:
+            df_csv = pd.read_csv('datos.csv', header=0, skiprows=[1, 1])
+            df_csv = df_csv.drop(['Unnamed: 0', 'Unnamed: 1'], axis=1)
             frames = [df_nec, df_vol, df_csv, bs_csv]
         else:
             frames = [df_nec, df_vol, bs_csv]
     else:
         if crowdsource:
+            df_csv = pd.read_csv('datos.csv', header=0, skiprows=[1, 1])
+            df_csv = df_csv.drop(['Unnamed: 0', 'Unnamed: 1'], axis=1)
             frames = [df_csv, bs_csv]
         else:
             frames = [bs_csv]
