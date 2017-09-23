@@ -116,9 +116,9 @@ if __name__ == '__main__':
 
 
     Calle = [''  for x in range(0,len(harvard_mit))]
-    Colonia = harvard_mit['Colonia']
-    Delegacion = harvard_mit['Delegación/municipio']
-    Estado = harvard_mit['Estado']
+    Colonia = harvard_mit['Colonia'].tolist()
+    Delegacion = harvard_mit['Delegación/municipio'].tolist()
+    Estado = harvard_mit['Estado'].tolist()
     Foto = [''  for x in range(0,len(harvard_mit))]
     Herramientas_Faltantes = [''  for x in range(0,len(harvard_mit))]
     Herramientas_Sobrantes = [''  for x in range(0,len(harvard_mit))]
@@ -134,9 +134,9 @@ if __name__ == '__main__':
     Numero_Personas_Fallecidas = [''  for x in range(0,len(harvard_mit))]
     Numero_Personas_Lesionadas = [''  for x in range(0,len(harvard_mit))]
     Numero_Personas_Rescatadas = [''  for x in range(0,len(harvard_mit))]
-    Otra_Referencia_Ubicacion = harvard_mit['Comentarios / Información adicional']
-    Timestamp = harvard_mit['Timestamp']
-    ddd = harvard_mit['Timestamp']
+    Otra_Referencia_Ubicacion = harvard_mit['Comentarios / Información adicional'].tolist()
+    Timestamp = harvard_mit['Timestamp'].tolist()
+    ddd = harvard_mit['Timestamp'].tolist()
     ddd = pd.to_datetime(ddd)
     eee = []
     x=0
