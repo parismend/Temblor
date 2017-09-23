@@ -93,8 +93,8 @@ if __name__ == '__main__':
     df_danios = pd.read_csv(
         path_danios, parse_dates=['Timestamp'],
         dtype={
-            'Calle', 'Colonia', 'Delegacin', 'Estado',
-            'NmeroExterioroAproximado'
+            'Calle': str, 'Colonia': str, 'Delegacin': str, 'Estado': str,
+            'NmeroExterioroAproximado': str
         }
     )
     radius_buffer = 0.0001
@@ -109,6 +109,13 @@ if __name__ == '__main__':
     # Call google
     print('Geocoding ...')
     google_key = os.environ.get('GOOGLE_API_KEY')
+    # Sequential requests
+    # df_google_danios = []
+    # for _, row in df_danios.iterrows():
+    #     respuesta = make_google_request(row, google_key)
+    #     df_google_danios.append(respuesta)
+
+    # Concurrent requests
     df_google_danios = Parallel(n_jobs=-1, backend="threading")(
         delayed(make_google_request)(row, google_key) for i, row in df_danios.iterrows()
     )
