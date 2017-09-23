@@ -1,3 +1,8 @@
+"""
+Este módulo maneja la autenticación con Google,
+y lee e inserta datos en un Spreadsheet.
+El archivo generado es datos.csv.
+"""
 # Correr desde HOME
 import re
 from apiclient import discovery
