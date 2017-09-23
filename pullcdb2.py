@@ -28,56 +28,59 @@ def distancia(lat1, lon1, lat2, lon2):
 
 
 if __name__ == '__main__':
-    ayuda_nec_link = 'https://descifra-admin.carto.com/api/v2/sql?q=select%20*%20from%20%22descifra-admin%22.ayudanecesitada'
-    ayuda_vol_link = 'https://descifra-admin.carto.com/api/v2/sql?q=select%20*%20from%20%22descifra-admin%22.ayudavoluntaria'
-    droplist = ['cartodb_id',
-                'contacto',
-                'estatus',
-                'the_geom',
-                'the_geom_webmercator',
-                'latlong']
+    descifra = False
+    crowdsource = False
+    if descifra:
+        ayuda_nec_link = 'https://descifra-admin.carto.com/api/v2/sql?q=select%20*%20from%20%22descifra-admin%22.ayudanecesitada'
+        ayuda_vol_link = 'https://descifra-admin.carto.com/api/v2/sql?q=select%20*%20from%20%22descifra-admin%22.ayudavoluntaria'
+        droplist = ['cartodb_id',
+                    'contacto',
+                    'estatus',
+                    'the_geom',
+                    'the_geom_webmercator',
+                    'latlong']
 
-    # REQUERIDA
-    # Descargar df ayuda requerida y cambiar nombres
-    df_nec = descarga_pandas(ayuda_nec_link)
-    df_nec = df_nec.rename(index=str,
-                           columns={"fechaalta": "Timestamp",
-                                    "descripcion": "Víveres Faltantes"})
+        # REQUERIDA
+        # Descargar df ayuda requerida y cambiar nombres
+        df_nec = descarga_pandas(ayuda_nec_link)
+        df_nec = df_nec.rename(index=str,
+                               columns={"fechaalta": "Timestamp",
+                                        "descripcion": "Víveres Faltantes"})
 
-    # Filtrar columnas null y separar latlong en latitud y longitud
-    df_nec = df_nec[df_nec.latlong.notnull()]
-    latlong = [re.sub('\)', '', re.sub('POINT\(', '', str(x))).split()
-               for x in df_nec.latlong.tolist()]
-    df_nec['latitud'] = [x[1] for x in latlong]
-    df_nec['longitud'] = [x[0] for x in latlong]
+        # Filtrar columnas null y separar latlong en latitud y longitud
+        df_nec = df_nec[df_nec.latlong.notnull()]
+        latlong = [re.sub('\)', '', re.sub('POINT\(', '', str(x))).split()
+                   for x in df_nec.latlong.tolist()]
+        df_nec['latitud'] = [x[1] for x in latlong]
+        df_nec['longitud'] = [x[0] for x in latlong]
 
-    # Tirar columnas no requeridas y convertir datetime
-    df_nec = df_nec.drop(droplist, axis=1)
-    df_nec['Timestamp'] = df_nec['Timestamp'].apply(
-        lambda x: datetime.datetime.strptime(x,
-            '%Y-%m-%dT%H:%M:%SZ').strftime('%m/%d/%Y %H:%M:%S'))
+        # Tirar columnas no requeridas y convertir datetime
+        df_nec = df_nec.drop(droplist, axis=1)
+        df_nec['Timestamp'] = df_nec['Timestamp'].apply(
+            lambda x: datetime.datetime.strptime(x,
+                '%Y-%m-%dT%H:%M:%SZ').strftime('%m/%d/%Y %H:%M:%S'))
 
 
-    # OFRECIDA
-    # Descargar df ayuda ofrecida y cambiar nombres
-    df_vol = descarga_pandas(ayuda_vol_link)
-    df_vol = df_vol.rename(index=str, columns={
-        "latlon": "latlong",
-        "fechaalta": "Timestamp",
-        "descripcion": "Víveres Sobrantes"})
+        # OFRECIDA
+        # Descargar df ayuda ofrecida y cambiar nombres
+        df_vol = descarga_pandas(ayuda_vol_link)
+        df_vol = df_vol.rename(index=str, columns={
+            "latlon": "latlong",
+            "fechaalta": "Timestamp",
+            "descripcion": "Víveres Sobrantes"})
 
-    # Filtrar columnas null y separar latlong en latitud y longitud
-    df_vol = df_vol[df_vol.latlong.notnull()]
-    latlong = [re.sub('\)', '', re.sub('POINT\(', '', str(x))).split()
-               for x in df_vol.latlong.tolist()]
-    df_vol['latitud'] = [x[1] for x in latlong]
-    df_vol['longitud'] = [x[0] for x in latlong]
+        # Filtrar columnas null y separar latlong en latitud y longitud
+        df_vol = df_vol[df_vol.latlong.notnull()]
+        latlong = [re.sub('\)', '', re.sub('POINT\(', '', str(x))).split()
+                   for x in df_vol.latlong.tolist()]
+        df_vol['latitud'] = [x[1] for x in latlong]
+        df_vol['longitud'] = [x[0] for x in latlong]
 
-    # Tirar columnas no requeridas y convertir datetime
-    df_vol = df_vol.drop(droplist, axis=1)
-    df_vol['Timestamp'] = df_vol['Timestamp'].apply(
-        lambda x: datetime.datetime.strptime(
-            x, '%Y-%m-%dT%H:%M:%SZ').strftime('%m/%d/%Y %H:%M:%S'))
+        # Tirar columnas no requeridas y convertir datetime
+        df_vol = df_vol.drop(droplist, axis=1)
+        df_vol['Timestamp'] = df_vol['Timestamp'].apply(
+            lambda x: datetime.datetime.strptime(
+                x, '%Y-%m-%dT%H:%M:%SZ').strftime('%m/%d/%Y %H:%M:%S'))
 
     # FORMS
     # Abrir el CSV
@@ -89,7 +92,16 @@ if __name__ == '__main__':
     bs_csv['Hora'] = time.time()
 
     # Concatenar
-    frames = [df_nec, df_vol, df_csv, bs_csv]
+    if descifra:
+        if crowdsource:
+            frames = [df_nec, df_vol, df_csv, bs_csv]
+        else:
+            frames = [df_nec, df_vol, bs_csv]
+    else:
+        if crowdsource:
+            frames = [df_csv, bs_csv]
+        else:
+            frames = [bs_csv]
 
     for i in range(len(frames)):
         frames[i].columns = [x.strip() for x in frames[i].columns]
