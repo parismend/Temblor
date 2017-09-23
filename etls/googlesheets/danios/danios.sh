@@ -26,7 +26,7 @@ python3 limpieza.py
 echo 'Se generó danios.csv'
 
 echo "Vamos a subir todo a google"
-gsutil -m cp danios_clean.csv gs://sismocdmx/danios/
+gsutil -m cp danios_clean.csv gs://sismocdmx/danios/danios.csv
 gsutil -m cp danios_clean.csv gs://sismocdmx/danios/danios$fecha.csv
 gsutil -m cp danios_zonas.csv gs://sismocdmx/danios/danios_zonas.csv
 gsutil acl ch -u AllUsers:R gs://sismocdmx/danios/danios.csv
@@ -34,4 +34,4 @@ bq load --replace --autodetect --source_format CSV --skip_leading_rows 1 sismocd
 bq load --replace --autodetect --source_format CSV --skip_leading_rows 1 sismocdmx.danios_zonas gs://sismocdmx/danios/danios_zonas.csv
 
 echo "eliminamos archivo local y terminamos"
-#rm danios.csv datos.csv bici_squad.csv
+rm danios.csv datos.csv bici_squad.csv danios_clean.csv
