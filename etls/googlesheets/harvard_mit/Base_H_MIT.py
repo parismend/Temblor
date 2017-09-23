@@ -112,7 +112,7 @@ if __name__ == '__main__':
     data = get_Data_temblor()
     harvard_mit = estructura_sheet(data)
 
-    #harvard_mit = pd.read_csv('/Users/parismendez/Desktop/Manos.csv')
+    harvard_mit = pd.read_csv('/Users/parismendez/Desktop/Manos.csv')
 
 
     Calle = [''  for x in range(0,len(harvard_mit))]
@@ -137,23 +137,23 @@ if __name__ == '__main__':
     Otra_Referencia_Ubicacion = harvard_mit['Comentarios / Información adicional'].tolist()
     Timestamp = harvard_mit['Timestamp'].tolist()
     ddd = harvard_mit['Timestamp'].tolist()
-    ddd = pd.to_datetime(ddd)
-    eee = []
-    x=0
-    while x < len(ddd):
-        eee.append(ddd[x].hour)
-        x = x+1
-    fff = []
-    y = 0
-    while y < len(eee):
-        fff.append(eee[y]-1)
-        y = y+1
-    z = 0
-    while z < len(fff):
-        if fff[z]<0:
-            fff[z]=23
-        ddd[z].replace(hour=fff[z])
-        z = z+1
+    #ddd = pd.to_datetime(ddd)
+#    eee = []
+#    x=0
+#    while x < len(ddd):
+#        eee.append(ddd[x].hour)
+#        x = x+1
+#    fff = []
+#    y = 0
+#    while y < len(eee):
+#        fff.append(eee[y]-1)
+#        y = y+1
+#    z = 0
+#    while z < len(fff):
+#        if fff[z]<0:
+#            fff[z]=23
+#        ddd[z].replace(hour=fff[z])
+#        z = z+1
     Timestamp = ddd
 
     Tipo_Infraestructura = [''  for x in range(0,len(harvard_mit))]
