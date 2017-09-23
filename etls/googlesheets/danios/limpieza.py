@@ -1,4 +1,4 @@
-#!/usr/bin/env python
+#-*- coding: utf-8 -*-
 
 import os
 import glob
@@ -11,8 +11,8 @@ from shapely.geometry import Point
 # se tiene que instalar también libspatialindex y rtree
 
 
-def concatenar_info_calle(calle: str, numero: str, colonia: str,
-                          delegacion: str, estado: str):
+def concatenar_info_calle(calle, numero, colonia,
+                          delegacion, estado):
     address = ', '.join([calle + ' ' + numero, colonia, delegacion, estado])
     address = address.replace('nan', '').replace('  ', ' ').strip()
     if address != ', , ,':
@@ -21,8 +21,8 @@ def concatenar_info_calle(calle: str, numero: str, colonia: str,
         return None
 
 
-def geocode_google(calle: str, numero: str, colonia: str,
-                   delegacion: str, estado: str, google_key: str):
+def geocode_google(calle, numero, colonia,
+                   delegacion, estado, google_key):
     direccion = concatenar_info_calle(calle, numero, colonia, delegacion, estado)
     output = {}
     if direccion is not None:
@@ -50,14 +50,14 @@ def geocode_google(calle: str, numero: str, colonia: str,
     return output
 
 
-def make_google_request(row, google_key: str):
-    calle: str = str(row.Calle)
-    numero: str = str(row.NmeroExterioroAproximado)
+def make_google_request(row, google_key):
+    calle = str(row.Calle)
+    numero = str(row.NmeroExterioroAproximado)
     if numero.startswith('0'):
         numero = 'nan'
     colonia = str(row.Colonia)
-    delegacion: str = str(row.Delegacin)
-    estado: str = str(row.Estado)
+    delegacion = str(row.Delegacin)
+    estado = str(row.Estado)
     address = concatenar_info_calle(calle, numero, colonia, delegacion, estado)
     if address is not None:
         google_response = geocoder.google(address, key=google_key)
@@ -95,8 +95,8 @@ if __name__ == '__main__':
     df_danios = pd.read_csv(
         path_danios, parse_dates=['Timestamp'],
         dtype={
-            'Calle': str, 'Colonia': str, 'Delegacin': str, 'Estado': str,
-            'NmeroExterioroAproximado': str
+            'Calle', 'Colonia', 'Delegacin', 'Estado',
+            'NmeroExterioroAproximado'
         }
     )
     radius_buffer = 0.0001
