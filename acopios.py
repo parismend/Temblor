@@ -12,6 +12,7 @@ import numpy as np
 from oauth2client.file import Storage
 import logging
 import tqdm
+import csv
 import re
 
 try:
@@ -154,4 +155,10 @@ if __name__ == '__main__':
     acopio.columns = [re.sub('[ <>{}\|]', '', x) for x in acopio.columns]
     acopio.columns = [re.sub('\(.*\)', '', x) for x in acopio.columns]
     acopio.columns = [re.sub('[^A-Z^a-z]', '', x) for x in acopio.columns]
+    for col in acopio.columns[acopio.columns.str.contains('altante')]:
+        acopio[col] = acopio[col].apply(
+            lambda x: re.sub('[^A-Z^a-z^ ]', '', str(x)))
+    for col in acopio.columns[acopio.columns.str.contains('istente')]:
+        acopio[col] = acopio[col].apply(
+            lambda x: re.sub('[^A-Z^a-z^ ]', '', str(x)))
     acopio[acopio.latitud != ''].to_csv('acopio.csv', encoding='utf-8')
