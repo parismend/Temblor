@@ -84,7 +84,7 @@ def make_google_request(row, google_key):
 
 
 if __name__ == '__main__':
-    google_key = os.environ.get('GOOGLE_API_KEY')
+    google_key = os.environ.get('GM_KEY')
     path_danios = os.environ.get('PATH_DANIOS')
     # ALGO ASI '../../../datos/manzanas_inegi/man*.shp'
     path_manzanas = os.environ.get('PATH_MANZANAS')
@@ -156,6 +156,7 @@ if __name__ == '__main__':
     danios_manzana = gpd.sjoin(geo_df, df_mnz, how="inner", op='intersects')
 
     danios_manzana = danios_manzana.sort_values('Timestamp', ascending=False)
+    danios_manzana.to_csv('danios_zonas.csv', index=False)
     limpio_danios = danios_manzana.reset_index().drop_duplicates(subset='index')
     limpio_danios = limpio_danios.drop_duplicates(subset='cvegeo')
     limpio_danios = limpio_danios.drop(
