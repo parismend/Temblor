@@ -141,5 +141,6 @@ if __name__ == '__main__':
     info_pub['longitud'] = longi
     info_pub['Hora'] = time.time()
     info_pub.columns = [re.sub('[^A-Z^a-z]', '', x) for x in info_pub.columns]
+    info_pub = pd.concat([info_pub, pd.read_csv('albergues_geo.csv')], axis=0)
     info_pub[info_pub.latitud != ''].to_csv('albergues.csv')
     info_pub[info_pub.latitud == ''].to_csv('albergues_sin_geo.csv')
