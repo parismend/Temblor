@@ -1,4 +1,5 @@
-# -*- coding: utf-8 -*-
+#-*- coding: utf-8 -*-
+
 import os
 import glob
 import geocoder
@@ -92,8 +93,8 @@ if __name__ == '__main__':
     df_danios = pd.read_csv(
         path_danios, parse_dates=['Timestamp'],
         dtype={
-            'Calle': str, 'Colonia': str, 'Delegacin': str, 'Estado': str,
-            'NmeroExterioroAproximado': str
+            'Calle', 'Colonia', 'Delegacin', 'Estado',
+            'NmeroExterioroAproximado'
         }
     )
     radius_buffer = 0.0001

@@ -84,13 +84,13 @@ if __name__ == '__main__':
 
     # Info adicional
     for col in danios.columns[danios.columns.str.contains('alta')]:
-        danios.loc[danios[col] == '',
-                   col] = 'Si tienes info entra a: http://bit.ly/Verificado19s'
+#        danios.loc[danios[col] == '',
+#                   col] = 'Si tienes info entra a: http://bit.ly/Verificado19s'
         danios.loc[danios[col].isnull(),
                    col] = 'Si tienes info entra a: http://bit.ly/Verificado19s'
     for col in danios.columns[danios.columns.str.contains('obra')]:
-        danios.loc[danios[col] == '',
-                   col] = 'Si tienes info entra a: http://bit.ly/Verificado19s'
+#        danios.loc[danios[col] == '',
+#                   col] = 'Si tienes info entra a: http://bit.ly/Verificado19s'
         danios.loc[danios[col].isnull(),
                    col] = 'Si tienes info entra a: http://bit.ly/Verificado19s'
 

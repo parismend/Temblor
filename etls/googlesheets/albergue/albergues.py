@@ -1,3 +1,4 @@
+# -*- coding: utf-8 -*-
 # Correr desde HOME
 import re
 import time
@@ -8,7 +9,8 @@ from oauth2client.file import Storage
 import pandas as pd
 import os
 import httplib2
-from geopy.geocoders import Nominatim
+from geopy.geocoders import GoogleV3
+import tqdm
 
 try:
     import argparse
@@ -21,16 +23,16 @@ except ImportError:
 SCOPES = 'https://www.googleapis.com/auth/spreadsheets.readonly'
 CLIENT_SECRET_FILE = 'creds/secreto_cliente.json'
 APPLICATION_NAME = 'Temblor'
-geolocator = Nominatim()
+geolocator = GoogleV3(api_key=os.environ.get('GM_KEY'))
 
 
 # Dirección debe ser de la forma "Num Calle Ciudad"
-def dir_correct(calle, numero):
+def dir_correct(calle, numero, ciudad, estado):
     k = []
-    k.append(numero)
-    k.append(calle)
-    k.append('cdmx')
-    dirr = ' '.join(k)
+    k.append(calle + ' ' + numero)
+    k.append(ciudad)
+    k.append(estado)
+    dirr = ', '.join(k)
     return dirr
 
 
@@ -114,6 +116,7 @@ def estructura_sheet(listas):
 
 
 if __name__ == '__main__':
+    print("baqueton")
     data = get_Data_temblor()
     info = estructura_sheet(data)
     info_pub = info.drop([
@@ -122,12 +125,15 @@ if __name__ == '__main__':
         axis=1)
 
     calles = info_pub['Calle'].tolist()
-    numeros = info_pub['Número'].tolist()
+    numeros = info_pub['Número o Aproximado'].tolist()
+    munis = info_pub['Delegación o municipio'].tolist()
+    estados = info_pub['Estado'].tolist()
     lati = []
     longi = []
-    for i in range(info_pub.shape[0]):
+    print('Punteando...')
+    for i in tqdm.tqdm(range(info_pub.shape[0])):
         lat_aux, lon_aux = obtain_latlong(dir_correct(
-            calles[i], numeros[i]))
+            calles[i], numeros[i], str(munis[i]), str(estados[i])))
         lati.append(lat_aux)
         longi.append(lon_aux)
     info_pub.columns = [re.sub('[<>{}\|]', '', x) for x in info_pub.columns]
@@ -137,4 +143,5 @@ if __name__ == '__main__':
     info_pub['longitud'] = longi
     info_pub['Hora'] = time.time()
     info_pub.columns = [re.sub('[^A-Z^a-z]', '', x) for x in info_pub.columns]
-    info_pub.to_csv('albergues.csv')
+    info_pub[info_pub.latitud != ''].to_csv('albergues.csv')
+    info_pub[info_pub.latitud == ''].to_csv('albergues_sin_geo.csv')
