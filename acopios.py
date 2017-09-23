@@ -151,6 +151,7 @@ if __name__ == '__main__':
         longi.append(lon_aux)
     acopio['latitud'] = lati
     acopio['longitud'] = longi
-    acopio.columns = [re.sub('[<>{}\|]', '', x) for x in acopio.columns]
+    acopio.columns = [re.sub('[ <>{}\|]', '', x) for x in acopio.columns]
     acopio.columns = [re.sub('\(.*\)', '', x) for x in acopio.columns]
-    acopio[acopio.latitud != ''].to_csv('acopio.csv', encoding='utf-8')
+    acopio.columns = [re.sub('[^A-Z^a-z]', '', x) for x in acopio.columns]
+    acopio[acopio.latitud != ''].to_csv('acopios.csv', encoding='utf-8')
