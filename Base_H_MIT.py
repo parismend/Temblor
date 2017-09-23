@@ -112,7 +112,7 @@ if __name__ == '__main__':
 data = get_Data_temblor()
 harvard_mit = estructura_sheet(data)
 
-harvard_mit = pd.read_csv('/Users/parismendez/Desktop/Manos.csv')
+#harvard_mit = pd.read_csv('/Users/parismendez/Desktop/Manos.csv')
 
 
 Calle = [''  for x in range(0,len(harvard_mit))]
@@ -200,5 +200,5 @@ Har_Mit = pd.DataFrame({
 
 Har_Mit.drop(Har_Mit.index[0])
 
-Har_Mit.to_csv('/Users/parismendez/Desktop/Harvard_MIT.csv')
+Har_Mit.to_csv('harvard_mit.csv')
 
