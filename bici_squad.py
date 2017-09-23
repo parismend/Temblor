@@ -28,7 +28,7 @@ geolocator = GoogleV3(api_key=os.environ.get('GM_KEY'))
 # Dirección debe ser de la forma "Num Calle Ciudad"
 def dir_correct(calle, numero, ciudad, estado):
     k = []
-    k.append(calle + ' ' + numero)
+    k.append('Calle ' + calle + ' ' + numero)
     k.append(ciudad)
     k.append(estado + ', ' + 'MX')
     dirr = ', '.join(k)

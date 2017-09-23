@@ -1,4 +1,5 @@
 import re
+import math
 import time
 import pandas as pd
 import urllib.request, json, datetime
@@ -11,6 +12,19 @@ def descarga_pandas(link):
         for dictionary in data['rows']:
             df = df.append(dictionary, ignore_index=True)
         return df
+
+
+def distancia(lat1, lon1, lat2, lon2):
+    radius = 6371  # km
+    dlat = math.radians(lat2 - lat1)
+    dlon = math.radians(lon2 - lon1)
+    a = math.sin(dlat / 2) * math.sin(dlat / 2) + \
+        math.cos(math.radians(lat1)) * \
+        math.cos(math.radians(lat2)) * math.sin(dlon / 2) * \
+        math.sin(dlon / 2)
+    c = 2 * math.atan2(math.sqrt(a), math.sqrt(1 - a))
+    d = radius * c
+    return d
 
 
 if __name__ == '__main__':
@@ -97,4 +111,11 @@ if __name__ == '__main__':
     # Guardar a csv
     filename = 'danios.csv'
     danios.columns = [re.sub('[^A-Z^a-z]', '', x) for x in danios.columns]
-    danios[~danios.latitud.isnull()].to_csv(filename, index=False, encoding='utf-8')
+    danios = danios[~danios.latitud.isnull()]
+    dist = []
+    for i, row in danios.iterrows():
+        dist.append(distancia(float(row.latitud), float(row.longitud),
+                              19.3730816, -99.1374631))
+    danios['dist'] = dist
+    (danios[danios.dist < 300].drop('dist', axis=1).
+        to_csv(filename, index=False, encoding='utf-8'))
