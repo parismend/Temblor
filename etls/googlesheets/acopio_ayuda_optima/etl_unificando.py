@@ -63,7 +63,7 @@ def get_Data_temblor():
     # Para descargar otras páginas cambiar el nombre en el campo range
     result = service.spreadsheets().values().get(
         spreadsheetId='1C7qvWM0o3u5pdFJhnvQosK_3l-VGyZWTZ0JvOtOgPp0',
-        range='4/10 Acopio CDMX!A7:AH10000').execute()
+        range='4/10 Acopio CDMX!A7:Z10000').execute()
     values = result.get('values', [])
     if not values:
         print('No data found.')
@@ -109,22 +109,22 @@ if __name__ == '__main__':
 
     data = get_Data_temblor()
     unificando = estructura_sheet(data)
-    print(unificando.columns)
-    Descripcion = unificando['DESCRIPCIÓN']
-    Del_Ent = unificando['DELEGACIÓN/ENTIDAD FEDERATIVA']
-    Colonia = unificando['COLONIA ']
-    Referencia = unificando['Lugar de REFERENCIA']
-    Direccion = unificando['DIRECCIÓN']
-    Hora_Atencion = unificando['HORARIOS DE ATENCIÓN']
-    Transporte = unificando['REQ TRANSPORTE PARA MOVER VÍVERES A OTRO LUGAR']
-    Viveres = unificando['Mandan víveres hacia']
-    Salidas = unificando['Urgencia de salida']
-    Necesitan = unificando['NECESITAN ']
-    Ex_Viveres = unificando['OFRECEN VÍVERES A QUIEN LO NECESITEN']
-    Fechas = unificando['FECHAS 19s ']
-    s19 = unificando['s19 POR FAVOR NO MODIFICAR ']
-    latitud = unificando['LAT ']
-    longitud = unificando['LONG ']
+
+    Descripcion = unificando['DESCRIPCIÓN'].tolist()
+    Del_Ent = unificando['DELEGACIÓN/ENTIDAD FEDERATIVA '].tolist()
+    Colonia = unificando['COLONIA '].tolist()
+    Referencia = unificando['Lugar de REFERENCIA'].tolist()
+    Direccion = unificando['DIRECCIÓN'].tolist()
+    Hora_Atencion = unificando['HORARIOS DE ATENCIÓN'].tolist()
+    Transporte = unificando['REQ TRANSPORTE PARA MOVER VÍVERES A OTRO LUGAR'].tolist()
+    Viveres = unificando['Mandan víveres hacia '].tolist()
+    Salidas = unificando['Horarios de salidas'].tolist()
+    Necesitan = unificando['NECESITAN'].tolist()
+    Ex_Viveres = unificando['OFRECEN VÍVERES A QUIEN LO NECESITEN'].tolist()
+    Fechas = unificando['FECHAS 19s'].tolist()
+    s19 = unificando['s19 POR FAVOR NO MODIFICAR'].tolist()
+    latitud = unificando['LAT '].tolist()
+    longitud = unificando['LONG '].tolist()
 
 
     unif = pd.DataFrame ({
@@ -136,6 +136,7 @@ if __name__ == '__main__':
     'Horarios de atencion ':Hora_Atencion,
     'Requiere transporte para mover viveres a otro lugar':Transporte,
     'Mandan viveres hacia':Viveres,
+    'Horarios de salida': Salidas,
     'Necesitan':Necesitan,
     'Exceso de viveres':Ex_Viveres,
     'Fechas':Fechas,
