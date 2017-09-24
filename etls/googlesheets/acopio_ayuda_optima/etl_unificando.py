@@ -121,7 +121,7 @@ if __name__ == '__main__':
     Salidas = unificando['Horarios de salidas']
     Necesitan = unificando['NECESITAN']
     Ex_Viveres = unificando['OFRECEN VÍVERES A QUIEN LO NECESITEN']
-    Fechas = unificando['FFECHAS 19s']
+    Fechas = unificando['FECHAS 19s']
     s19 = unificando['s19 POR FAVOR NO MODIFICAR']
     latitud = unificando['LAT ']
     longitud = unificando['LONG ']
