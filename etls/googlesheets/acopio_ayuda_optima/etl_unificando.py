@@ -6,7 +6,6 @@ from oauth2client.file import Storage
 import re
 import os
 import httplib2
-from geopy.geocoders import Nominatim
 
 try:
     import argparse
@@ -60,11 +59,15 @@ def get_Data_temblor():
                               'v4',
                               http=http,
                               discoveryServiceUrl=discoveryUrl)
-    # DAÑOS Y DERRUMBES VERIFICADOS
-    # Para descargar otras páginas cambiar el onmbre en el campo range
+    # Acopio de Ayuda Optima
+    # Para descargar otras páginas cambiar el nombre en el campo range
     result = service.spreadsheets().values().get(
         spreadsheetId='1C7qvWM0o3u5pdFJhnvQosK_3l-VGyZWTZ0JvOtOgPp0',
+<<<<<<< HEAD
+        range='Acopio CDMX!A7:W1000').execute()
+=======
         range='4/10 Acopio CDMX!A7:AH10000').execute()
+>>>>>>> e5367a4f60dc6ca28b16fe0ceb39a0cd954f6a23
     values = result.get('values', [])
     if not values:
         print('No data found.')
@@ -114,16 +117,13 @@ if __name__ == '__main__':
     Descripcion = unificando['DESCRIPCIÓN ']
     Del_Ent = unificando['DELEGACIÓN/ENTIDAD FEDERATIVA ']
     Colonia = unificando['COLONIA ']
-    Referencia = unificando['Lugar de REFERENCIA']
-    Referencia = unificando['LUGAR DONDE ESTÁN ']
-    Direccion = unificando['DIRECCIÓN']
-    Hora_Atencion = unificando['HORARIOS DE ATENCIÓN']
-    Transporte = unificando['REQ TRANSPORTE PARA MOVER VÍVERES A OTRO LUGAR']
-    Viveres = unificando['Mandan víveres hacia ']
-    Viveres = unificando['A dónde van ']
-    Salidas = unificando['Urgencia de salida ']
+    Referencia = unificando['Lugar de REFERENCIA ']
+    Direccion = unificando['DIRECCIÓN ']
+    Hora_Atencion = unificando['HORARIOS DE ATENCIÓN ']
+    Transporte = unificando['REQ TRANSPORTE PARA MOVER VÍVERES A OTRO LUGAR ']
+    Viveres = unificando['Mandan víveres hacia  ']
     Necesitan = unificando['NECESITAN ']
-    Ex_Viveres = unificando['OFRECEN VÍVERES A QUIEN LO NECESITEN']
+    Ex_Viveres = unificando['OFRECEN VÍVERES A QUIEN LO NECESITEN ']
     Fechas = unificando['FECHAS 19s ']
     s19 = unificando['s19 POR FAVOR NO MODIFICAR ']
     latitud = unificando['LAT ']
@@ -139,7 +139,6 @@ if __name__ == '__main__':
     'Horarios de atencion ':Hora_Atencion,
     'Requiere transporte para mover viveres a otro lugar':Transporte,
     'Mandan viveres hacia':Viveres,
-    'Horarios de salidas':Salidas,
     'Necesitan':Necesitan,
     'Exceso de viveres':Ex_Viveres,
     'Fechas':Fechas,
@@ -151,7 +150,6 @@ if __name__ == '__main__':
     unif_l = unif[unif.s19.isnull() == False]
 
     unif_l = unif_l[unif.s19.isnull() == False]
-
-
+    del unif_l['s19']
 
     unif_l.to_csv('acopio_ayuda_optima.csv')
