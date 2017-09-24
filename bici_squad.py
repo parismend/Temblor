@@ -142,8 +142,8 @@ if __name__ == '__main__':
     data = get_Data_temblor()
     info = estructura_sheet(data)
     info_pub = info.drop([
-        'Nombre del Informante (esta información no será pública)',
-        'Teléfono de Contacto (esta información no será pública)'],
+        'Nombre del Informante (ESTA INFORMACIÓN SE HARÁ PUBLICA)', 
+        'Teléfono de Contacto (ESTA INFORMACIÓN SE HARÁ PUBLICA)'],
         axis=1)
 
     calles = info_pub['Calle'].tolist()
