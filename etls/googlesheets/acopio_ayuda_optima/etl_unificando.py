@@ -63,7 +63,11 @@ def get_Data_temblor():
     # Para descargar otras páginas cambiar el nombre en el campo range
     result = service.spreadsheets().values().get(
         spreadsheetId='1C7qvWM0o3u5pdFJhnvQosK_3l-VGyZWTZ0JvOtOgPp0',
+<<<<<<< HEAD
         range='Acopio CDMX!A7:W1000').execute()
+=======
+        range='4/10 Acopio CDMX!A7:AH10000').execute()
+>>>>>>> e5367a4f60dc6ca28b16fe0ceb39a0cd954f6a23
     values = result.get('values', [])
     if not values:
         print('No data found.')
