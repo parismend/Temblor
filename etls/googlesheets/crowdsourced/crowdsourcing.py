@@ -131,8 +131,8 @@ if __name__ == '__main__':
         'Teléfono o correo del informante'],
         axis=1)
 
-    info_pub.loc[info_pub.Consentimiento.str.contains('No acepto'),
-                 'Teléfono del acopio/albergue'] = ''
+#    info_pub.loc[info_pub.Consentimiento.str.contains('No acepto'),
+#                 'Teléfono del acopio/albergue'] = ''
 
     calles = info_pub['Calle'].tolist()
     numeros = info_pub['Número Exterior  o Aproximado (escribe sólo el número)'].tolist()
