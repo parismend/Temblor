@@ -22,7 +22,7 @@ echo "Vamos a subir todo a google"
 gsutil -m cp harvard_mit.csv gs://sismocdmx/harvard-mit/
 gsutil -m cp harvard_mit.csv gs://sismocdmx/harvard-mit/harvard_mit$fecha.csv
 gsutil acl ch -u AllUsers:R gs://sismocdmx/harvard-mit/harvard_mit.csv
-bq load --replace --autodetect --source_format CSV --skip_leading_rows 1 sismocdmx.harvard-mit gs://sismocdmx/harvard-mit/harvard_mit.csv
+bq load --replace --autodetect --source_format CSV --skip_leading_rows 1 sismocdmx.harvard_mit gs://sismocdmx/harvard-mit/harvard_mit.csv
 
 echo "eliminamos archivo local y terminamos"
 rm harvard_mit.csv
