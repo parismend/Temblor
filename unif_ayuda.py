@@ -1,12 +1,24 @@
-import pandas as pd
+"""
+Este módulo maneja la autenticación con Google,
+y lee e inserta datos en un Spreadsheet.
+El archivo generado es datos.csv.
+"""
+# Correr desde HOME
+import re
 from apiclient import discovery
 from oauth2client import client
 from oauth2client import tools
 from oauth2client.file import Storage
-import re
+import pandas as pd
 import os
 import httplib2
-from geopy.geocoders import Nominatim
+from geopy.geocoders import GoogleV3
+from Dicc_Tipo_Danhos import camb_tipos
+import tqdm
+
+
+print("Hola ETL")
+print(os.getcwd())
 
 try:
     import argparse
@@ -19,11 +31,36 @@ except ImportError:
 SCOPES = 'https://www.googleapis.com/auth/spreadsheets.readonly'
 CLIENT_SECRET_FILE = 'creds/secreto_cliente.json'
 APPLICATION_NAME = 'Temblor'
+geolocator = GoogleV3(api_key=os.environ.get('GM_KEY'))
+
+
+# Dirección debe ser de la forma "Num Calle Ciudad"
+def dir_correct(calle, numero, ciudad, estado):
+    k = []
+    k.append('Calle ' + calle + ' ' + numero)
+    k.append(ciudad)
+    k.append(estado + ', ' + 'MX')
+    dirr = ', '.join(k)
+    return dirr
+
+
+def obtain_latlong(dirr):
+    try:
+        location = geolocator.geocode(dirr, region='MX')
+        lat = location.latitude
+        lon = location.longitude
+    except:
+        lat = ''
+        lon = ''
+    return lat, lon
+
 
 def get_credentials():
     """Gets valid user credentials from storage.
+
     If nothing has been stored, or if the stored credentials are invalid,
     the OAuth2 flow is completed to obtain the new credentials.
+
     Returns:
         Credentials, the obtained credential.
     """
@@ -46,8 +83,10 @@ def get_credentials():
         print('Storing credentials to ' + credential_path)
     return credentials
 
+
 def get_Data_temblor():
     """Shows basic usage of the Sheets API.
+
     Creates a Sheets API service object and prints the names and majors of
     students in a sample spreadsheet:
     https://docs.google.com/spreadsheets/d/1BxiMVs0XRA5nFMdKvBdBZjgmUUqptlbs74OgvE2upms/edit
@@ -64,36 +103,12 @@ def get_Data_temblor():
     # Para descargar otras páginas cambiar el onmbre en el campo range
     result = service.spreadsheets().values().get(
         spreadsheetId='1C7qvWM0o3u5pdFJhnvQosK_3l-VGyZWTZ0JvOtOgPp0',
-        range='3/10 Traslado de Víveres!A7:AH10000').execute()
+        range='4/10 Acopio CDMX!A7:AH10000').execute()
     values = result.get('values', [])
     if not values:
         print('No data found.')
     else:
         return values
-
-
-def insert_Data_temblor(datos):
-    """Shows basic usage of the Sheets API.
-    Creates a Sheets API service object and prints the names and majors of
-    students in a sample spreadsheet:
-    https://docs.google.com/spreadsheets/d/1BxiMVs0XRA5nFMdKvBdBZjgmUUqptlbs74OgvE2upms/edit
-    """
-    credentials = get_credentials()
-    http = credentials.authorize(httplib2.Http())
-    discoveryUrl = ('https://sheets.googleapis.com/$discovery/rest?'
-                    'version=v4')
-    service = discovery.build('sheets',
-                              'v4',
-                              http=http,
-                              discoveryServiceUrl=discoveryUrl)
-    result = service.spreadsheets().values().get(
-        spreadsheetId='1wLHf5ITtTsfErWoPHwhu7Vfy-96eQKKxZO2AmZbP9XY',
-        range='Datos!A1:H10000').execute()
-    values = result.get('values', [])
-    if not values:
-        print('No data found.')
-    else:
-        print(values)
 
 
 def estructura_sheet(listas):
@@ -106,50 +121,25 @@ def estructura_sheet(listas):
         info = info.append(dicc_aux, ignore_index=True)
     return info
 
+
 if __name__ == '__main__':
-
     data = get_Data_temblor()
-    unificando = estructura_sheet(data)
+    info = estructura_sheet(data)
+    datos = info
 
-    Descripcion = unificando['DESCRIPCIÓN']
-    Del_Ent = unificando['DELEGACIÓN/ENTIDAD FEDERATIVA ']
-    Colonia = unificando['COLONIA ']
-    Referencia = unificando['Lugar de REFERENCIA']
-    Direccion = unificando['DIRECCIÓN']
-    Hora_Atencion = unificando['HORARIOS DE ATENCIÓN']
-    Transporte = unificando['REQ TRANSPORTE PARA MOVER VÍVERES A OTRO LUGAR']
-    Viveres = unificando['Mandan víveres hacia ']
-    Salidas = unificando['Horarios de salidas']
-    Necesitan = unificando['NECESITAN']
-    Ex_Viveres = unificando['OFRECEN VÍVERES A QUIEN LO NECESITEN']
-    Fechas = unificando['ULTIMA ACTUALIZACIÓN  (AAAA-MM-DD 23:59)']
-    s19 = unificando['s19 POR FAVOR NO MODIFICAR']
-    latitud = unificando['LAT ']
-    longitud = unificando['LONG ']
+    datos = datos[['DESCRIPCIÓN', 'DELEGACIÓN/ENTIDAD FEDERATIVA ', 'COLONIA ', 'Lugar de REFERENCIA',
+        'DIRECCIÓN', 'HORARIOS DE ATENCIÓN', 'REQ TRANSPORTE PARA MOVER VÍVERES A OTRO LUGAR', 
+         'Mandan víveres hacia ', 'Horarios de salidas', 'NECESITAN', 'OFRECEN VÍVERES A QUIEN LO NECESITEN', 
+         's19 POR FAVOR NO MODIFICAR', 'FECHAS 19s', 'LAT ', 'LONG ']]
 
+    datos.columns = ['DESCRIPCION', 'ENTIDADFEDERATIVA', 'COLONIA', 'LugardeREFERENCIA', 'DIRECCION', 
+        'HORARIOSDEATENCION', 'REQTRANSPORTEPARAMOVERVIVERESAOTROLUGAR', 'Mandanvivereshacia', 
+        'Horariosdesalida', 'NECESITAN', 'ESCESODEVIVERES', 
+        'S19NoModificar', 'FECHAS19s', 'LAT', 'LONG']
 
-    unif = pd.DataFrame ({
-    'Descripcion':Descripcion,
-    'Delegacion/Entidad Federativa':Del_Ent,
-    'Colonia':Colonia,
-    'Lugar de Referencia':Referencia,
-    'Direccion':Direccion,
-    'Horarios de atencion ':Hora_Atencion,
-    'Requiere transporte para mover viveres a otro lugar':Transporte,
-    'Mandan viveres hacia':Viveres,
-    'Horarios de salidas':Salidas,
-    'Necesitan':Necesitan,
-    'Exceso de viveres':Ex_Viveres,
-    'Fechas':Fechas,
-    's19': s19,
-    'Latitud': latitud,
-    'Longitud': longitud,
-    })
+    datos = datos.loc[datos['S19NoModificar'] == '1']
+    datos = datos.loc[-(datos['LAT'].isnull()) & -(datos['LONG'].isnull())]
 
-    unif_l = unif[unif.s19.isnull() == False]
+    del datos['S19NoModificar']
 
-    unif_l = unif_l[unif.s19.isnull() == False]
-
-
-
-    unif_l.to_csv('acopio_ayuda_optima.csv')
+    datos.to_csv('ayuda_optima.csv', index=False)
