@@ -37,7 +37,7 @@ class LimpiaGoogleSheets(luigi.Task):
         )
 
         calles = info_pub['Calle'].tolist()
-        numeros = info_pub['Número Exterior  o Aproximado (escribe sólo el número)'].tolist()
+        numeros = info_pub['Número Exterior o Aproximado (escribe sólo el número)'].tolist()
         lati = []
         longi = []
 
