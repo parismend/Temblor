@@ -94,11 +94,11 @@ def load_shape(file, usecols):
 def run_main(path_danios, path_manzanas, google_key):
     radius_buffer = 0.0001
     df_danios = pd.read_csv(
-        path_danios, parse_dates=['Timestamp']#,
-        #dtype={
-        #    'Calle', 'Colonia', 'Delegacin', 'Estado',
-        #    'NmeroExterioroAproximado'
-        #}
+        path_danios, parse_dates=['Timestamp'],
+        dtype={
+           'Calle': str, 'Colonia': str, 'Delegacin': str, 'Estado': str,
+           'NmeroExterioroAproximado': str
+        }
     )
     df_danios = df_danios.assign(fuente='')
     df_danios.loc[df_danios.Calle.isnull(), 'fuente'] = 'JSON'
