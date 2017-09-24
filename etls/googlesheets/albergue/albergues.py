@@ -1,4 +1,3 @@
-# -*- coding: utf-8 -*-
 # Correr desde HOME
 import re
 import time
@@ -29,16 +28,16 @@ geolocator = GoogleV3(api_key=os.environ.get('GM_KEY'))
 # Dirección debe ser de la forma "Num Calle Ciudad"
 def dir_correct(calle, numero, ciudad, estado):
     k = []
-    k.append(calle + ' ' + numero)
+    k.append('Calle ' + calle + ' ' + numero)
     k.append(ciudad)
-    k.append(estado)
+    k.append(estado + ', ' + 'MX')
     dirr = ', '.join(k)
     return dirr
 
 
 def obtain_latlong(dirr):
     try:
-        location = geolocator.geocode(dirr)
+        location = geolocator.geocode(dirr, region='MX')
         lat = location.latitude
         lon = location.longitude
     except:
@@ -94,8 +93,8 @@ def get_Data_temblor():
     # DAÑOS Y DERRUMBES VERIFICADOS
     # Para descargar otras páginas cambiar el onmbre en el campo range
     result = service.spreadsheets().values().get(
-        spreadsheetId='1iZWfqPskSZkp35NRb-6vaxoZY6ErQ5LP77pqzlUjX5Y',
-        range='Form Responses 1!A1:AH10000').execute()
+        spreadsheetId='1ISw9WtEOFqSRSoVV9ty40Xp0i7Z_Ymc-lrnx1Exgub4',
+        range='Form Responses 1!A1:AR1000').execute()
     values = result.get('values', [])
     if not values:
         print('No data found.')
@@ -116,7 +115,6 @@ def estructura_sheet(listas):
 
 
 if __name__ == '__main__':
-    print("baqueton")
     data = get_Data_temblor()
     info = estructura_sheet(data)
     info_pub = info.drop([
@@ -125,7 +123,7 @@ if __name__ == '__main__':
         axis=1)
 
     calles = info_pub['Calle'].tolist()
-    numeros = info_pub['Número o Aproximado'].tolist()
+    numeros = info_pub['Número'].tolist()
     munis = info_pub['Delegación o municipio'].tolist()
     estados = info_pub['Estado'].tolist()
     lati = []
@@ -143,5 +141,6 @@ if __name__ == '__main__':
     info_pub['longitud'] = longi
     info_pub['Hora'] = time.time()
     info_pub.columns = [re.sub('[^A-Z^a-z]', '', x) for x in info_pub.columns]
+    info_pub = pd.concat([info_pub, pd.read_csv('albergues_geo.csv')], axis=0)
     info_pub[info_pub.latitud != ''].to_csv('albergues.csv')
     info_pub[info_pub.latitud == ''].to_csv('albergues_sin_geo.csv')
