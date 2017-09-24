@@ -63,7 +63,7 @@ def get_Data_temblor():
     # Para descargar otras páginas cambiar el nombre en el campo range
     result = service.spreadsheets().values().get(
         spreadsheetId='1C7qvWM0o3u5pdFJhnvQosK_3l-VGyZWTZ0JvOtOgPp0',
-        range='4/10 Acopio CDMX!A7:z95').execute()
+        range='4/10 Acopio CDMX!A7:z96').execute()
     values = result.get('values', [])
     if not values:
         print('No data found.')
@@ -111,7 +111,7 @@ if __name__ == '__main__':
     unificando = estructura_sheet(data)
 
     Descripcion = unificando['DESCRIPCIÓN'].tolist()
-    Del_Ent = unificando['DELEGACIÓN/ENTIDAD FEDERATIVA '].tolist()
+    Del_Ent = unificando['DELEGACIÓN'].tolist()
     Colonia = unificando['COLONIA '].tolist()
     Referencia = unificando['Lugar de REFERENCIA'].tolist()
     Direccion = unificando['DIRECCIÓN'].tolist()
@@ -149,5 +149,6 @@ if __name__ == '__main__':
 
     unif_l = unif_l[unif.s19.isnull() == False]
     del unif_l['s19']
+    unif_l = unif_l.iloc[1:]
 
     unif_l.to_csv('acopio_ayuda_optima.csv')
