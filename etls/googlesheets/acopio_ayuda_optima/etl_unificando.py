@@ -63,7 +63,7 @@ def get_Data_temblor():
     # Para descargar otras páginas cambiar el nombre en el campo range
     result = service.spreadsheets().values().get(
         spreadsheetId='1C7qvWM0o3u5pdFJhnvQosK_3l-VGyZWTZ0JvOtOgPp0',
-        range='4/10 Acopio CDMX!A7:AH10000').execute()
+        range='Acopio CDMX!A7:Z10000').execute()
     values = result.get('values', [])
     if not values:
         print('No data found.')
@@ -110,7 +110,7 @@ if __name__ == '__main__':
     data = get_Data_temblor()
     unificando = estructura_sheet(data)
 
-    Descripcion = unificando['DESCRIPCIÓN ']
+    Descripcion = unificando['DESCRIPCIÓN']
     Del_Ent = unificando['DELEGACIÓN/ENTIDAD FEDERATIVA ']
     Colonia = unificando['COLONIA ']
     Referencia = unificando['Lugar de REFERENCIA']
@@ -118,11 +118,11 @@ if __name__ == '__main__':
     Hora_Atencion = unificando['HORARIOS DE ATENCIÓN']
     Transporte = unificando['REQ TRANSPORTE PARA MOVER VÍVERES A OTRO LUGAR']
     Viveres = unificando['Mandan víveres hacia ']
-    Salidas = unificando['Urgencia de salida ']
-    Necesitan = unificando['NECESITAN ']
-    Ex_Viveres = unificando['OFRECEN VÍVERES A QUIEN LO NECESITEN ']
-    Fechas = unificando['FECHAS 19s ']
-    s19 = unificando['s19 POR FAVOR NO MODIFICAR ']
+    Salidas = unificando['Horarios de salidas']
+    Necesitan = unificando['NECESITAN']
+    Ex_Viveres = unificando['OFRECEN VÍVERES A QUIEN LO NECESITEN']
+    Fechas = unificando['FFECHAS 19s']
+    s19 = unificando['s19 POR FAVOR NO MODIFICAR']
     latitud = unificando['LAT ']
     longitud = unificando['LONG ']
 
@@ -136,6 +136,7 @@ if __name__ == '__main__':
     'Horarios de atencion ':Hora_Atencion,
     'Requiere transporte para mover viveres a otro lugar':Transporte,
     'Mandan viveres hacia':Viveres,
+    'Horarios de salida': Salidas,
     'Necesitan':Necesitan,
     'Exceso de viveres':Ex_Viveres,
     'Fechas':Fechas,
