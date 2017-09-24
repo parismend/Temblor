@@ -92,7 +92,7 @@ def load_shape(file, usecols):
 
 
 def run_main(path_danios, path_manzanas, google_key):
-    radius_buffer: float = 0.0001
+    radius_buffer = 0.0001
     df_danios = pd.read_csv(
         path_danios, parse_dates=['Timestamp']#,
         #dtype={
