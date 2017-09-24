@@ -1,7 +1,9 @@
 import pandas as pd
 
+#Carga CSV desde path
 waze = pd.read_csv('datos/Mexico Earthquake Waze Pins.csv')
 
+#Asigna valores de waze a nuevas variables
 Calle=[''  for x in range(0,136)]
 Colonia=[''  for x in range(0,136)]
 Delegación=[''  for x in range(0,136)]
@@ -43,7 +45,7 @@ for x in range(0,len(Tipo_del_Danho)):
 latitud = waze['lat']
 longitud = waze['lon']
 
-
+#Crea nuevo DataFrame con las variables anteriores
 waze_n = pd.DataFrame({
 '',
 '',
@@ -77,34 +79,5 @@ waze_n = pd.DataFrame({
 'longitud': longitud
 	})
 
-
-
+#Arroja DataFrame como CSV
 waze_n.to_csv('datos/waze.csv')
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-

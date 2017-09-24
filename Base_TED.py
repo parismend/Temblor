@@ -2,6 +2,7 @@ import pandas as pd
 import requests
 import re
 
+#Carga CSV de TED
 ted = pd.read_csv('/Users/parismendez/Desktop/TED.csv')
 
 urls = ted['Google Maps']
@@ -26,7 +27,7 @@ while y < len(lat_lon):
 latitud = [lat_lon[x][0][0].split(',')[0] for x in lat_lon]
 longitud = [lat_lon[x][0][0].split(',')[1] for x in lat_lon]
 
-
+#Toma la información de TED y la asigna a variables "nuestras"
 Delegacion = ted['Delegación']
 Tipo_Infraestructura = ted['Lugar']
 Tipo_del_Danio = ted['Tipo']
@@ -61,8 +62,7 @@ Verificado = [''  for x in range(0,len(ted))]
 
 Viveres_Sobrantes = [''  for x in range(0,len(ted))]
 
-
-
+#Convierte las variables anteriores a DataFrame
 tedd = pd.DataFrame({
 'Calle': Calle,
 'Colonia': Colonia,
@@ -95,4 +95,5 @@ tedd = pd.DataFrame({
 'longitud': longitud
 	})
 
+#Arroja DataFrame como CSV en path
 tedd.to_csv('/Users/parismendez/Desktop/TED_D.csv')
