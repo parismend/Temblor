@@ -109,7 +109,7 @@ if __name__ == '__main__':
 
     data = get_Data_temblor()
     unificando = estructura_sheet(data)
-    print(unificando.colums)
+    print(unificando.columns)
     Descripcion = unificando['DESCRIPCIÓN']
     Del_Ent = unificando['DELEGACIÓN/ENTIDAD FEDERATIVA']
     Colonia = unificando['COLONIA ']
