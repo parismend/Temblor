@@ -109,18 +109,18 @@ if __name__ == '__main__':
 
     data = get_Data_temblor()
     unificando = estructura_sheet(data)
-
-    Descripcion = unificando['DESCRIPCIÓN ']
-    Del_Ent = unificando['DELEGACIÓN/ENTIDAD FEDERATIVA ']
+    print(unificando.colums)
+    Descripcion = unificando['DESCRIPCIÓN']
+    Del_Ent = unificando['DELEGACIÓN/ENTIDAD FEDERATIVA']
     Colonia = unificando['COLONIA ']
     Referencia = unificando['Lugar de REFERENCIA']
     Direccion = unificando['DIRECCIÓN']
     Hora_Atencion = unificando['HORARIOS DE ATENCIÓN']
     Transporte = unificando['REQ TRANSPORTE PARA MOVER VÍVERES A OTRO LUGAR']
-    Viveres = unificando['Mandan víveres hacia ']
-    Salidas = unificando['Urgencia de salida ']
+    Viveres = unificando['Mandan víveres hacia']
+    Salidas = unificando['Urgencia de salida']
     Necesitan = unificando['NECESITAN ']
-    Ex_Viveres = unificando['OFRECEN VÍVERES A QUIEN LO NECESITEN ']
+    Ex_Viveres = unificando['OFRECEN VÍVERES A QUIEN LO NECESITEN']
     Fechas = unificando['FECHAS 19s ']
     s19 = unificando['s19 POR FAVOR NO MODIFICAR ']
     latitud = unificando['LAT ']
