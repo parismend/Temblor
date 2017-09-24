@@ -64,7 +64,7 @@ def get_Data_temblor():
     # Para descargar otras páginas cambiar el onmbre en el campo range
     result = service.spreadsheets().values().get(
         spreadsheetId='1C7qvWM0o3u5pdFJhnvQosK_3l-VGyZWTZ0JvOtOgPp0',
-        range='3/10 Traslado de Víveres!A7:AH10000').execute()
+        range='Acopio CDMX!A7:AH10000').execute()
     values = result.get('values', [])
     if not values:
         print('No data found.')
@@ -111,41 +111,41 @@ if __name__ == '__main__':
     data = get_Data_temblor()
     unificando = estructura_sheet(data)
 
-    Descripcion = unificando['DESCRIPCIÓN']
-    # Del_Ent = unificando['DELEGACIÓN/ENTIDAD FEDERATIVA ']
-    #Colonia = unificando['COLONIA ']
-    #Referencia = unificando['Lugar de REFERENCIA']
-    Referencia = unificando['LUGAR DONDE ESTÁN']
-    #Direccion = unificando['DIRECCIÓN']
-    #Hora_Atencion = unificando['HORARIOS DE ATENCIÓN']
-    #Transporte = unificando['REQ TRANSPORTE PARA MOVER VÍVERES A OTRO LUGAR']
-    #Viveres = unificando['Mandan víveres hacia ']
-    Viveres = unificando['A dónde van']
-    Salidas = unificando['Urgencia de salida']
-    Necesitan = unificando['NECESITAN']
-    #Ex_Viveres = unificando['OFRECEN VÍVERES A QUIEN LO NECESITEN']
-    Fechas = unificando['ULTIMA ACTUALIZACIÓN  (AAAA-MM-DD 23:59)']
-    s19 = unificando['s19 POR FAVOR NO MODIFICAR']
-    #latitud = unificando['LAT ']
-    #longitud = unificando['LONG ']
+    Descripcion = unificando['DESCRIPCIÓN ']
+    Del_Ent = unificando['DELEGACIÓN/ENTIDAD FEDERATIVA ']
+    Colonia = unificando['COLONIA ']
+    Referencia = unificando['Lugar de REFERENCIA']
+    Referencia = unificando['LUGAR DONDE ESTÁN ']
+    Direccion = unificando['DIRECCIÓN']
+    Hora_Atencion = unificando['HORARIOS DE ATENCIÓN']
+    Transporte = unificando['REQ TRANSPORTE PARA MOVER VÍVERES A OTRO LUGAR']
+    Viveres = unificando['Mandan víveres hacia ']
+    Viveres = unificando['A dónde van ']
+    Salidas = unificando['Urgencia de salida ']
+    Necesitan = unificando['NECESITAN ']
+    Ex_Viveres = unificando['OFRECEN VÍVERES A QUIEN LO NECESITEN']
+    Fechas = unificando['FECHAS 19s ']
+    s19 = unificando['s19 POR FAVOR NO MODIFICAR ']
+    latitud = unificando['LAT ']
+    longitud = unificando['LONG ']
 
 
     unif = pd.DataFrame ({
     'Descripcion':Descripcion,
-    #'Delegacion/Entidad Federativa':Del_Ent,
-    #'Colonia':Colonia,
+    'Delegacion/Entidad Federativa':Del_Ent,
+    'Colonia':Colonia,
     'Lugar de Referencia':Referencia,
-    #'Direccion':Direccion,
-    #'Horarios de atencion ':Hora_Atencion,
-    #'Requiere transporte para mover viveres a otro lugar':Transporte,
+    'Direccion':Direccion,
+    'Horarios de atencion ':Hora_Atencion,
+    'Requiere transporte para mover viveres a otro lugar':Transporte,
     'Mandan viveres hacia':Viveres,
     'Horarios de salidas':Salidas,
     'Necesitan':Necesitan,
-    #'Exceso de viveres':Ex_Viveres,
+    'Exceso de viveres':Ex_Viveres,
     'Fechas':Fechas,
     's19': s19,
-    #'Latitud': latitud,
-    #'Longitud': longitud,
+    'Latitud': latitud,
+    'Longitud': longitud,
     })
 
     unif_l = unif[unif.s19.isnull() == False]

@@ -1,9 +1,8 @@
-import pandas as pd
-from Dicc_Tipo_Danhos import camb_tipos
+
 
 def camb_tipos():
 	uni_Tipos = ['Fuga de Gas',
-	'Daños estructural verificado por Protección Civil',
+	'Daños estructural verificado por proteccion civil',
 	'Derrumbe, Desalojado/Acordonado, Fuga de Gas',
 	'Derrumbe, Desalojado/Acordonado',
 	'Desalojado/Acordonado',
@@ -18,20 +17,20 @@ def camb_tipos():
 	'Derrumbe',
 	'Escaleras desniveladas',
 	'Fuga de Agua',
-	'Fracturas importantes ',
+	'fracturas inportantes ',
 	'Desalojado/Acordonado, Está cerrado. No da servicio.',
 	'Por colapsar posiblemente',
 	'Agrietamiento',
 	'Daño',
 	'Riesgo de derrumbe',
-	'Desalojado/Acordonado, Algunas columnas rotas o dobladas ligeramente',
+	'Desalojado/Acordonado, Algunas columnas rodas dobladas ligeramente',
 	'Edificios ladeados',
 	'Derrumbe de barda',
 	'Grietas en planta baja',
 	'Fisuras estructurales y daños en losas',
 	'Daños estructurales',
 	'Derrumbe, Fuga de Gas',
-	'Dañado' ]	
+	'dañado' ]	
 
 	Tipos_unif = [
 	'Fuga de Gas',
@@ -67,9 +66,6 @@ def camb_tipos():
 	]
 
 	danhos_tipos = zip(uni_Tipos,Tipos_unif)
-	Danho = dict(danhos_tipos)
+	Danho  = dict(danhos_tipos)
 
 	return Danho
-
-dicc_dho = camb_tipos()
-df.replace({'Tipo de Daños' : dicc_dho})

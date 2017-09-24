@@ -2,7 +2,7 @@ import os
 import requests
 import datetime
 
-
+#Envía un correo a Francisco Mekler notificando de error durante el ETL con la fecha, tarea y detalle del mismo
 def _send_error(task, exception):
     response = requests.post(
         "https://api.mailgun.net/v3/sandbox82ec51efe6ff46d8aef7968f9eb56af7.mailgun.org/messages",
@@ -15,7 +15,7 @@ def _send_error(task, exception):
         })
 
     print(response.json())
-
-
+    
+    
 def sendgrid_handler(task, exception):
     _send_error(task, exception)

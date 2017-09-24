@@ -30,18 +30,18 @@ geolocator = GoogleV3(api_key=os.environ.get('GM_KEY'))
 
 
 # Dirección debe ser de la forma "Num Calle Ciudad"
-def dir_correct(calle, numero):
+def dir_correct(calle, numero, ciudad, estado):
     k = []
-    k.append(calle)
-    k.append(numero)
-    k.append('cdmx')
-    dirr = ' '.join(k)
+    k.append('Calle ' + calle + ' ' + numero)
+    k.append(ciudad)
+    k.append(estado + ', ' + 'MX')
+    dirr = ', '.join(k)
     return dirr
 
 
 def obtain_latlong(dirr):
     try:
-        location = geolocator.geocode(dirr)
+        location = geolocator.geocode(dirr, region='MX')
         lat = location.latitude
         lon = location.longitude
     except:
@@ -152,13 +152,14 @@ if __name__ == '__main__':
 
     calles = info_pub['Calle'].tolist()
     numeros = info_pub['Número Exterior  o Aproximado (escribe sólo el número)'].tolist()
+    munis = info_pub['Municipio'].tolist()
+    estados = info_pub['Estado'].tolist()
     # coordenadas
     lati = []
     longi = []
-    print('Punteando...')
     for i in tqdm.tqdm(range(info_pub.shape[0])):
         lat_aux, lon_aux = obtain_latlong(dir_correct(
-            calles[i], numeros[i]))
+            calles[i], numeros[i], str(munis[i]), str(estados[i])))
         lati.append(lat_aux)
         longi.append(lon_aux)
     info_pub['latitud'] = lati
@@ -182,4 +183,4 @@ if __name__ == '__main__':
     info_pub['Tipo del Daño'] = info_pub['Tipo Daño']
     info_pub.drop('Tipo Daño', axis=1)
 
-    info_pub.to_csv('datos.csv')
+    info_pub[info_pub.latitud != ''].to_csv('datos.csv')

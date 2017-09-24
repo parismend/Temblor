@@ -6,6 +6,7 @@ def op_base(file):
     with open (file, 'r') as sq:
         base = sq.read()
 
+#Calcula si la distancia entre coordenadas es menor a 100 metros 
 def cal_dist(lat,long):
     cerc = []
     for x in base:
