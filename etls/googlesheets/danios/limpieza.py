@@ -12,6 +12,8 @@ from shapely.geometry import Point
 
 def concatenar_info_calle(calle, numero, colonia,
                           delegacion, estado):
+    if estado != 'Ciudad de México':
+        delegacion = ''
     address = ', '.join([calle + ' ' + numero, colonia, delegacion, estado])
     address = address.replace('nan', '').replace('  ', ' ').strip()
     if address != ', , ,':
@@ -84,11 +86,10 @@ def make_google_request(row, google_key):
 
 
 if __name__ == '__main__':
-    google_key = os.environ.get('GM_KEY')
+    # google_key = os.environ.get('GM_KEY')
     path_danios = os.environ.get('PATH_DANIOS')
     # ALGO ASI '../../../datos/manzanas_inegi/man*.shp'
     path_manzanas = os.environ.get('PATH_MANZANAS')
-
     # path_save_danios = os.environ.get('PATH_DANIOS_SAVE')
     df_danios = pd.read_csv(
         path_danios, parse_dates=['Timestamp'],
@@ -98,10 +99,6 @@ if __name__ == '__main__':
         }
     )
     radius_buffer = 0.0001
-    # df_danios = df_danios.assign(
-    #     numero_exterior=df_danios['Número Exterior  o Aproximado'],
-    #     Delegacion=df_danios['Delegación'],
-    # )
     df_danios = df_danios.assign(fuente='')
     df_danios.loc[df_danios.Calle.isnull(), 'fuente'] = 'JSON'
     df_danios.loc[df_danios.Calle.isnull(), 'fuente'] = 'georref'
