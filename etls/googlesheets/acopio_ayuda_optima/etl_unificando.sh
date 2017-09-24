@@ -13,7 +13,7 @@ echo $PATH
 
 fecha=`date +%s`
 
-echo "esta por comenzar harvard mit etl.....chan chaaaaan!!!"
+echo "esta por comenzar optimizando ayuda optima etl.....chan chaaaaan!!!"
 python3 etl_unificando.py
 # python limpieza.py
 echo 'Se generó acopio_ayuda_optima.csv'
