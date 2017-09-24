@@ -7,6 +7,7 @@ import pandas as pd
 import geopandas as gpd
 from joblib import Parallel, delayed
 from shapely.geometry import Point
+# from memory_profiler import profile
 # se tiene que instalar también libspatialindex y rtree
 
 
@@ -85,12 +86,13 @@ def make_google_request(row, google_key):
     return None
 
 
-if __name__ == '__main__':
-    # google_key = os.environ.get('GM_KEY')
-    path_danios = os.environ.get('PATH_DANIOS')
-    # ALGO ASI '../../../datos/manzanas_inegi/man*.shp'
-    path_manzanas = os.environ.get('PATH_MANZANAS')
-    # path_save_danios = os.environ.get('PATH_DANIOS_SAVE')
+def load_shape(file, usecols):
+    df_geo = gpd.read_file(file)
+    return df_geo.loc[:, usecols]
+
+
+def run_main(path_danios, path_manzanas, google_key):
+    radius_buffer: float = 0.0001
     df_danios = pd.read_csv(
         path_danios, parse_dates=['Timestamp']#,
         #dtype={
@@ -98,14 +100,11 @@ if __name__ == '__main__':
         #    'NmeroExterioroAproximado'
         #}
     )
-    radius_buffer = 0.0001
     df_danios = df_danios.assign(fuente='')
     df_danios.loc[df_danios.Calle.isnull(), 'fuente'] = 'JSON'
-    df_danios.loc[df_danios.Calle.isnull(), 'fuente'] = 'georref'
-
+    df_danios.loc[~df_danios.Calle.isnull(), 'fuente'] = 'georref'
     # Call google
     print('Geocoding ...')
-    google_key = os.environ.get('GOOGLE_API_KEY')
     # Sequential requests
     # df_google_danios = []
     # for _, row in df_danios.iterrows():
@@ -125,13 +124,13 @@ if __name__ == '__main__':
     df_google_danios = df_google_danios.assign(
         google_calle=df_google_danios.google_calle.fillna(df_google_danios.Calle)
     )
-
     df_google_danios = df_google_danios.loc[df_google_danios.google_confidence >= 8]
 
     # Geo-ref
     print('Loading cvegeos...')
     files = [file for file in glob.glob(path_manzanas)]
-    df_mnz = Parallel(n_jobs=-1)(delayed(gpd.read_file)(file) for file in files)
+    usecols = ['cvegeo', 'geometry']
+    df_mnz = Parallel(n_jobs=2)(delayed(load_shape)(file, usecols) for file in files)
     df_mnz = pd.concat(df_mnz, axis=0, ignore_index=True)
     df_mnz = df_mnz.to_crs({'init': 'epsg:4326'})
 
@@ -157,7 +156,7 @@ if __name__ == '__main__':
     limpio_danios = danios_manzana.reset_index().drop_duplicates(subset='index')
     limpio_danios = limpio_danios.drop_duplicates(subset='cvegeo')
     limpio_danios = limpio_danios.drop(
-        ['geometry', 'index_right', 'tipomza', 'latitud', 'longitud'],
+        ['geometry', 'index_right', 'latitud', 'longitud'],
         axis=1
     )
     limpio_danios = limpio_danios.rename(
@@ -178,3 +177,12 @@ if __name__ == '__main__':
     limpio_danios.to_csv(
         'danios_clean.csv', index=False, quoting=1, encoding='utf-8'
     )
+
+
+if __name__ == '__main__':
+    # google_key = os.environ.get('GM_KEY')
+    path_danios = os.environ.get('PATH_DANIOS')
+    # ALGO ASI '../../../datos/manzanas_inegi/man*.shp'
+    path_manzanas = os.environ.get('PATH_MANZANAS')
+    google_key = os.environ.get('GOOGLE_API_KEY')
+    run_main(path_danios, path_manzanas, google_key)
