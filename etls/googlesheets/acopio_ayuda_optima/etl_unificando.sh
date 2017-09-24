@@ -25,4 +25,4 @@ gsutil acl ch -u AllUsers:R gs://sismocdmx/acopioAyudaOptima/acopio_ayuda_optima
 bq load --replace --autodetect --source_format CSV --skip_leading_rows 1 sismocdmx.acopioAyudaOptima gs://sismocdmx/acopioAyudaOptima/acopio_ayuda_optima.csv
 
 echo "eliminamos archivo local y terminamos"
-rm acopio_ayuda_optima.csv
+#rm acopio_ayuda_optima.csv
