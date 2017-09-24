@@ -7,7 +7,6 @@ import re
 import os
 import httplib2
 from geopy.geocoders import Nominatim
-from Dicc_Tipo_Danhos import camb_tipos
 
 try:
     import argparse
