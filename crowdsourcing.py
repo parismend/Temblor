@@ -165,4 +165,4 @@ if __name__ == '__main__':
     info_pub['Tipo del Daño'] = info_pub['Tipo Daño']
     info_pub.drop('Tipo Daño', axis=1)
 
-    info_pub[info_pub.latitud != ''].to_csv('datos.csv')
+    info_pub[info_pub.latitud != ''].to_csv('datos_crowdsourced.csv')
