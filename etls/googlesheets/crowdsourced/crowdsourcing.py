@@ -15,6 +15,7 @@ import httplib2
 from geopy.geocoders import GoogleV3
 from Dicc_Tipo_Danhos import camb_tipos
 import tqdm
+import unidecode
 
 
 print("Hola ETL")
@@ -137,6 +138,11 @@ if __name__ == '__main__':
     numeros = info_pub['Número Exterior  o Aproximado (escribe sólo el número)'].tolist()
     munis = info_pub['Delegación o Municipio'].tolist()
     estados = info_pub['Estado'].tolist()
+
+    for col in info_pub.columns:
+        print(col)
+        info_pub[col] = info_pub[col].apply(lambda x: unidecode.unidecode(x))
+
     # coordenadas
     lati = []
     longi = []
@@ -153,9 +159,13 @@ if __name__ == '__main__':
     info_pub.columns = [x[0:60] for x in info_pub.columns]
     # Faltantes
     for col in info_pub.columns[info_pub.columns.str.contains('alta')]:
-        info_pub.loc[info_pub[col] == '', col] = 'Si tienes info entra a: http://bit.ly/Verificado19s'
+        info_pub.loc[
+            info_pub[col] == '',
+            col] = 'Si tienes info entra a: http://bit.ly/Verificado19s'
     for col in info_pub.columns[info_pub.columns.str.contains('obra')]:
-        info_pub.loc[info_pub[col] == '', col] = 'Si tienes info entra a: http://bit.ly/Verificado19s'
+        info_pub.loc[
+            info_pub[col] == '',
+            col] = 'Si tienes info entra a: http://bit.ly/Verificado19s'
 
     dicc_danios = camb_tipos()
 
