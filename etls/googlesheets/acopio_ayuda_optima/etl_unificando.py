@@ -110,21 +110,21 @@ if __name__ == '__main__':
     data = get_Data_temblor()
     unificando = estructura_sheet(data)
 
-    Descripcion = unificando['DESCRIPCIÓN']
-    Del_Ent = unificando['DELEGACIÓN/ENTIDAD FEDERATIVA ']
-    Colonia = unificando['COLONIA ']
-    Referencia = unificando['Lugar de REFERENCIA']
-    Direccion = unificando['DIRECCIÓN']
-    Hora_Atencion = unificando['HORARIOS DE ATENCIÓN']
-    Transporte = unificando['REQ TRANSPORTE PARA MOVER VÍVERES A OTRO LUGAR']
-    Viveres = unificando['Mandan víveres hacia ']
-    Salidas = unificando['Horarios de salidas']
-    Necesitan = unificando['NECESITAN']
-    Ex_Viveres = unificando['OFRECEN VÍVERES A QUIEN LO NECESITEN']
-    Fechas = unificando['FECHAS 19s']
-    s19 = unificando['s19 POR FAVOR NO MODIFICAR']
-    latitud = unificando['LAT ']
-    longitud = unificando['LONG ']
+    Descripcion = unificando['DESCRIPCIÓN'].tolist()
+    Del_Ent = unificando['DELEGACIÓN/ENTIDAD FEDERATIVA '].tolist()
+    Colonia = unificando['COLONIA '].tolist()
+    Referencia = unificando['Lugar de REFERENCIA'].tolist()
+    Direccion = unificando['DIRECCIÓN'].tolist()
+    Hora_Atencion = unificando['HORARIOS DE ATENCIÓN'].tolist()
+    Transporte = unificando['REQ TRANSPORTE PARA MOVER VÍVERES A OTRO LUGAR'].tolist()
+    Viveres = unificando['Mandan víveres hacia '].tolist()
+    Salidas = unificando['Horarios de salidas'].tolist()
+    Necesitan = unificando['NECESITAN'].tolist()
+    Ex_Viveres = unificando['OFRECEN VÍVERES A QUIEN LO NECESITEN'].tolist()
+    Fechas = unificando['FECHAS 19s'].tolist()
+    s19 = unificando['s19 POR FAVOR NO MODIFICAR'].tolist()
+    latitud = unificando['LAT '].tolist()
+    longitud = unificando['LONG '].tolist()
 
 
     unif = pd.DataFrame ({
