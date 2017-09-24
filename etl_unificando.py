@@ -64,8 +64,8 @@ def get_Data_temblor():
     # DAÑOS Y DERRUMBES VERIFICADOS
     # Para descargar otras páginas cambiar el onmbre en el campo range
     result = service.spreadsheets().values().get(
-        spreadsheetId='1vHrM6r3sO1f6ylsci_B7z08PrLsYKpG5VywjZXD6l5M',
-        range='Form Responses 1!A7:AH10000').execute()
+        spreadsheetId='1C7qvWM0o3u5pdFJhnvQosK_3l-VGyZWTZ0JvOtOgPp0',
+        range='Traslado de Víveres!A7:AH10000').execute()
     values = result.get('values', [])
     if not values:
         print('No data found.')
