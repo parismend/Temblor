@@ -128,11 +128,13 @@ if __name__ == '__main__':
 	Ex_Viveres = unificando['OFRECEN VÍVERES A QUIEN LO NECESITEN']
 	Fechas = unificando['ULTIMA ACTUALIZACIÓN  (AAAA-MM-DD 23:59)']
 	s19 = unificando['s19 POR FAVOR NO MODIFICAR']
-
-
-
-
-
+    latitud = unificando['LAT ']
+    longitud = unificando['LONG ']
+	
+	
+	
+	
+	
 
 	unif = pd.DataFrame ({
 	'Descripcion':Descripcion,
@@ -141,14 +143,18 @@ if __name__ == '__main__':
 	'Lugar de Referencia':Referencia,
 	'Direccion':Direccion,
 	'Horarios de atencion ':Hora_Atencion,
-	'Requeiere transporte para mover viveres a otro lugar':Transporte,
+	'Requiere transporte para mover viveres a otro lugar':Transporte,
 	'Mandan viveres hacia':Viveres,
 	'Horarios de salidas':Salidas,
 	'Necesitan':Necesitan,
 	'Exceso de viveres':Ex_Viveres,
 	'Fechas':Fechas,
-	's19': s19
+	's19': s19,
+    'Latitud': latitud,
+    'Longitud': longitud,
 	})
+
+	unif_l = unif_l[unif.s19.isnull() == False]
 
 	unif_l = unif_l[unif.s19.isnull() == False]
 
