@@ -19,10 +19,10 @@ python3 etl_unificando.py
 echo 'Se generó acopio_ayuda_optima.csv'
 
 echo "Vamos a subir todo a google"
-gsutil -m cp acopio_ayuda_optima.csv gs://sismocdmx/acopio-ayuda-optima/
-gsutil -m cp acopio_ayuda_optima.csv gs://sismocdmx/acopio-ayuda-optima/acopio_ayuda_optima$fecha.csv
-gsutil acl ch -u AllUsers:R gs://sismocdmx/acopio-ayuda-optima/acopio_ayuda_optima.csv
-bq load --replace --autodetect --source_format CSV --skip_leading_rows 1 sismocdmx.acopio-ayuda-optima gs://sismocdmx/acopio-ayuda-optima/acopio_ayuda_optima.csv
+gsutil -m cp acopio_ayuda_optima.csv gs://sismocdmx/acopioAyudaOptima/
+gsutil -m cp acopio_ayuda_optima.csv gs://sismocdmx/acopioAyudaOptima/acopio_ayuda_optima$fecha.csv
+gsutil acl ch -u AllUsers:R gs://sismocdmx/acopioAyudaOptima/acopio_ayuda_optima.csv
+bq load --replace --autodetect --source_format CSV --skip_leading_rows 1 sismocdmx.acopioAyudaOptima gs://sismocdmx/acopioAyudaOptima/acopio_ayuda_optima.csv
 
 echo "eliminamos archivo local y terminamos"
 rm acopio_ayuda_optima.csv
