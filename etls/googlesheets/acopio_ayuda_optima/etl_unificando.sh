@@ -22,7 +22,7 @@ echo "Vamos a subir todo a google"
 gsutil -m cp acopio_ayuda_optima.csv gs://sismocdmx/acopio-ayuda-optima/
 gsutil -m cp acopio_ayuda_optima.csv gs://sismocdmx/acopio-ayuda-optima/acopio_ayuda_optima$fecha.csv
 gsutil acl ch -u AllUsers:R gs://sismocdmx/acopio-ayuda-optima/acopio_ayuda_optima.csv
-bq load --replace --autodetect --source_format CSV --skip_leading_rows 1 sismocdmx.harvard-mit gs://sismocdmx/acopio-ayuda-optima/acopio_ayuda_optima.csv
+bq load --replace --autodetect --source_format CSV --skip_leading_rows 1 sismocdmx.acopio-ayuda-optima gs://sismocdmx/acopio-ayuda-optima/acopio_ayuda_optima.csv
 
 echo "eliminamos archivo local y terminamos"
 rm acopio_ayuda_optima.csv
