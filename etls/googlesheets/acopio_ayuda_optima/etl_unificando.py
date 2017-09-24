@@ -63,7 +63,7 @@ def get_Data_temblor():
     # Para descargar otras páginas cambiar el nombre en el campo range
     result = service.spreadsheets().values().get(
         spreadsheetId='1C7qvWM0o3u5pdFJhnvQosK_3l-VGyZWTZ0JvOtOgPp0',
-        range='4/10 Acopio CDMX!A7:Z10000').execute()
+        range='4/10 Acopio CDMX!A7:z95').execute()
     values = result.get('values', [])
     if not values:
         print('No data found.')
@@ -120,7 +120,7 @@ if __name__ == '__main__':
     Viveres = unificando['Mandan víveres hacia '].tolist()
     Salidas = unificando['Horarios de salidas'].tolist()
     Necesitan = unificando['NECESITAN'].tolist()
-    Ex_Viveres = unificando['OFRECEN VÍVERES A QUIEN LO NECESITEN'].tolist()
+    Ex_Viveres = unificando['OFRECEN VÍVERES A QUIEN LO NECESITEN LOCALMENTE O PARA TRANSPORTAR'].tolist()
     Fechas = unificando['FECHAS 19s'].tolist()
     s19 = unificando['s19 POR FAVOR NO MODIFICAR'].tolist()
     latitud = unificando['LAT '].tolist()

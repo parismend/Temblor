@@ -10,6 +10,7 @@ import httplib2
 from geopy.geocoders import GoogleV3
 from Dicc_Tipo_Danhos import camb_tipos
 import tqdm
+import datetime
 
 try:
     import argparse
@@ -150,6 +151,11 @@ if __name__ == '__main__':
     numeros = info_pub['Número Exterior  o Aproximado (escribe sólo el número)'].tolist()
     munis = info_pub['Municipio'].tolist()
     estados = info_pub['Estado'].tolist()
+
+    info_pub=info_pub.loc[1:,]
+    info_pub.Timestamp = pd.to_datetime(info_pub.Timestamp, format='%m/%d/%Y %H:%M:%S')
+    info_pub=info_pub[info_pub.Timestamp >= datetime.datetime.now()-datetime.timedelta(days=1)]
+
     # coordenadas
     lati = []
     longi = []
