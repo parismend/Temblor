@@ -117,10 +117,11 @@ def estructura_sheet(listas):
 if __name__ == '__main__':
     data = get_Data_temblor()
     info = estructura_sheet(data)
-    info_pub = info.drop([
-        'Nombre del contacto (esta información no se ha pública)',
-        'Teléfono (esta información no se hará pública)'],
-        axis=1)
+    info_pub = info
+#    .drop([
+#        'Nombre del contacto (esta información no se ha pública)',
+#        'Teléfono (esta información no se hará pública)'],
+#        axis=1)
 
     calles = info_pub['Calle'].tolist()
     numeros = info_pub['Número'].tolist()

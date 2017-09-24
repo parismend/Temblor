@@ -65,7 +65,7 @@ def get_Data_temblor():
     # Para descargar otras páginas cambiar el onmbre en el campo range
     result = service.spreadsheets().values().get(
         spreadsheetId='1vHrM6r3sO1f6ylsci_B7z08PrLsYKpG5VywjZXD6l5M',
-        range='Form Responses 1!A1:AH10000').execute()
+        range='Form Responses 1!A7:AH10000').execute()
     values = result.get('values', [])
     if not values:
         print('No data found.')
@@ -110,78 +110,48 @@ def estructura_sheet(listas):
 if __name__ == '__main__':
 
     data = get_Data_temblor()
-    harvard_mit = estructura_sheet(data)
+    unificando = estructura_sheet(data)
+	
+	
+	
 
-    
+	Descripcion = unificando['DESCRIPCIÓN']
+	Del_Ent = unificando['DELEGACIÓN/ENTIDAD FEDERATIVA ']
+	Colonia = unificando['COLONIA ']
+	Referencia = unificando['Lugar de REFERENCIA']
+	Direccion = unificando['DIRECCIÓN']
+	Hora_Atencion = unificando['HORARIOS DE ATENCIÓN']
+	Transporte = unificando['REQ TRANSPORTE PARA MOVER VÍVERES A OTRO LUGAR']
+	Viveres = unificando['Mandan víveres hacia ']
+	Salidas = unificando['Horarios de salidas']
+	Necesitan = unificando['NECESITAN']
+	Ex_Viveres = unificando['OFRECEN VÍVERES A QUIEN LO NECESITEN']
+	Fechas = unificando['ULTIMA ACTUALIZACIÓN  (AAAA-MM-DD 23:59)']
+	s19 = unificando['s19 POR FAVOR NO MODIFICAR']	
+	
+	
+	
+	
+	
+
+	unif = pd.DataFrame ({
+	'Descripcion':Descripcion,
+	'Delegacion/Entidad Federativa':Del_Ent,
+	'Colonia':Colonia,
+	'Lugar de Referencia':Referencia,
+	'Direccion':Direccion,
+	'Horarios de atencion ':Hora_Atencion,
+	'Requeiere transporte para mover viveres a otro lugar':Transporte,
+	'Mandan viveres hacia':Viveres,
+	'Horarios de salidas':Salidas,
+	'Necesitan':Necesitan,
+	'Exceso de viveres':Ex_Viveres,
+	'Fechas':Fechas,
+	's19': s19
+	})
+
+	unif_l = unif_l[unif.s19.isnull() == False]
 
 
-    Calle = [''  for x in range(0,len(harvard_mit))]
-    Colonia = harvard_mit['Colonia'].tolist()
-    Delegacion = harvard_mit['Delegación/municipio'].tolist()
-    Estado = harvard_mit['Estado'].tolist()
-    Foto = [''  for x in range(0,len(harvard_mit))]
-    Herramientas_Faltantes = [''  for x in range(0,len(harvard_mit))]
-    Herramientas_Sobrantes = [''  for x in range(0,len(harvard_mit))]
-    Hora = [''  for x in range(0,len(harvard_mit))]
-    Hora_Reporte = [''  for x in range(0,len(harvard_mit))]
-    Mano_Faltante = [''  for x in range(0,len(harvard_mit))]
-    Mano_Sobrantes = [''  for x in range(0,len(harvard_mit))]
-    Medicamentos_Faltantes = [''  for x in range(0,len(harvard_mit))]
-    Medicamentos_Sobrantes = [''  for x in range(0,len(harvard_mit))]
-    Numero_Exterior_Aproximado = [''  for x in range(0,len(harvard_mit))]
-    Numero_Personas_Atrapadas = [''  for x in range(0,len(harvard_mit))]
-    Numero_Personas_Desaparecidas = [''  for x in range(0,len(harvard_mit))]
-    Numero_Personas_Fallecidas = [''  for x in range(0,len(harvard_mit))]
-    Numero_Personas_Lesionadas = [''  for x in range(0,len(harvard_mit))]
-    Numero_Personas_Rescatadas = [''  for x in range(0,len(harvard_mit))]
-    Otra_Referencia_Ubicacion = harvard_mit['Comentarios / Información adicional'].tolist()
-    Timestamp = harvard_mit['Timestamp'].tolist()
-    ddd = harvard_mit['Timestamp'].tolist()
-    Timestamp = ddd
 
-    Tipo_Infraestructura = [''  for x in range(0,len(harvard_mit))]
-    Tipo_de_Uso = [''  for x in range(0,len(harvard_mit))]
-    Tipo_del_Danio = harvard_mit['Ofrezco/Necesito']
-    Verificado = [''  for x in range(0,len(harvard_mit))]
-    Viveres_Faltantes = harvard_mit['¿Qué ofrezco/necesito? (comida, hospedaje, agua, transporte, peritajes, etc.) - Por favor ofrece ayuda profesional (asistencia médica, peritajes) si eres un profesional en el tema']
-    Viveres_Sobrantes = [''  for x in range(0,len(harvard_mit))]
-    latitud = harvard_mit['Latitude']
-    longitud = harvard_mit['Longitude']
-
-
-    Har_Mit = pd.DataFrame({
-    'Calle': Calle,
-    'Colonia': Colonia,
-    'Delegacion': Delegacion,
-    'Estado' : Estado,
-    'Foto': Foto,
-    'HerramientasFaltantes': Herramientas_Faltantes,
-    'HerramientasSobrantes': Herramientas_Sobrantes,
-    'Hora': Hora,
-    'HoraDelReporte': Hora_Reporte,
-    'ManoDeObraFaltante': Mano_Faltante,
-    'ManoDeObraSobrantes': Mano_Sobrantes,
-    'MedicamentosFaltantes': Medicamentos_Faltantes,
-    'MedicamentosSobrantes': Medicamentos_Sobrantes,
-    'NumeroExteriorOAproximado': Numero_Exterior_Aproximado,
-    'NumeroDePersonasAtrapadas': Numero_Personas_Atrapadas,
-    'NumeroDePersonasDesaparecidas': Numero_Personas_Desaparecidas,
-    'NumeroDePersonasFallecidas': Numero_Personas_Fallecidas,
-    'NumeroDePersonasLesionadas': Numero_Personas_Lesionadas,
-    'NumeroDePersonasRescatadas': Numero_Personas_Rescatadas,
-    'OtraReferenciaDeUbicación ': Otra_Referencia_Ubicacion,
-    'Timestamp' : Timestamp,
-    'TipoDeInfraestructura': Tipo_Infraestructura,
-    'TipoDeUso': Tipo_de_Uso,
-    'TipoDelDano': Tipo_del_Danio,
-    'Verificado' : Verificado,
-    'ViveresFaltantes ': Viveres_Faltantes,
-    'ViveresSobrantes ': Viveres_Sobrantes,
-    'latitud': latitud,
-    'longitud': longitud
-        })
-
-    Har_Mit.drop(Har_Mit.index[0])
-
-    Har_Mit.to_csv('harvard_mit.csv')
-
+	unif_l.to_csv('unificando.csv')
