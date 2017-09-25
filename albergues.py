@@ -129,9 +129,8 @@ if __name__ == '__main__':
     munis = info_pub['Delegación o municipio'].tolist()
     estados = info_pub['Estado'].tolist()
 
-    info_pub=info_pub.loc[1:,]
     info_pub.Timestamp = pd.to_datetime(info_pub.Timestamp, format='%m/%d/%Y %H:%M:%S')
-    #info_pub=info_pub[info_pub.Timestamp >= datetime.datetime.now()-datetime.timedelta(days=1)]
+    info_pub=info_pub[info_pub.Timestamp >= datetime.datetime.now()-datetime.timedelta(days=1)].reset_index(drop=True)
 
     lati = []
     longi = []
@@ -149,5 +148,11 @@ if __name__ == '__main__':
     info_pub['Hora'] = time.time()
     info_pub.columns = [re.sub('[^A-Z^a-z]', '', x) for x in info_pub.columns]
     info_pub = pd.concat([info_pub, pd.read_csv('albergues_geo.csv')], axis=0)
-    info_pub[info_pub.latitud != ''].to_csv('albergues.csv')
-    info_pub[info_pub.latitud == ''].to_csv('albergues_sin_geo.csv')
+    try:
+        try:
+            info_pub[info_pub.latitud != ''].to_csv('albergues.csv')
+        except:
+            info_pub[~info_pub.latitud.isnull()].to_csv('albergues.csv')
+    except:
+            info_pub.to_csv('albergues.csv')
+#    info_pub[info_pub.latitud == ''].to_csv('albergues_sin_geo.csv')
