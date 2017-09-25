@@ -1,14 +1,16 @@
 # -*- coding: utf-8 -*-
 import pandas as pd
+from unidecode import unidecode as uc
 from datetime import datetime
 from uglydicts import gsheets_bquery, bquery_clean, clean_list, check_list
 
 # Esta función reemplaza valores encontrados en clean_list con None (borra datos sucios)
 def p_replace(x):
-    if str(x) in clean_list:
-        return None
+    x = uc(str(x).lower())
+    if x in clean_list:
+        return clean_list[x]
     else:
-    	return x
+        return x
 
 
 # Esta función es la principa. Lee el gspreadsheet de Oferta/demanda y los datos exportados de BigQuery del back end
@@ -36,10 +38,10 @@ if __name__ == '__main__':
     df = clean('data/acopiosheets.csv', 'data/acopioreqs.csv')
 
     for col in df.columns:
-    	df[col] = df[col].apply(lambda x: p_replace(x))
-#    print('saving DF to csv: logistics.csv')
-#    
-#    filename = 'data/logistics.csv'
-#    df.to_csv(filename, index=False, encoding='utf-8')
+        df[col] = df[col].apply(lambda x: p_replace(x))
+    
+    print('saving DF to csv: logistics.csv')
+    filename = 'data/logistics.csv'
+    df.to_csv(filename, index=False, encoding='utf-8')
     
 

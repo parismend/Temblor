@@ -2,6 +2,8 @@
 
 # Diccionarios feos para realizar migración de tablas
 
+
+# Para homogeneizar spreadsheets O/D con Big Query:
 gsheets_bquery = {'Alimentos Existentes (por favor, separa tu respuesta por comas)': 'AlimentosExistentes',
     'Alimentos Faltantes (por favor, separa tu respuesta por comas)': 'AlimentosFaltantes',
     'Artículos Urgentes (por favor, separa tu respuesta por comas)': 'ArtculosUrgentes',
@@ -25,6 +27,8 @@ gsheets_bquery = {'Alimentos Existentes (por favor, separa tu respuesta por coma
     'Verificado': 'Verificado'
     }
 
+
+# Para crear nombres de columnas más utilizables:
 bquery_clean = {'int64_field_0': 'id_pet',
     'AlimentosExistentes': 'alimentos',
     'AlimentosFaltantes': 'alimentos_f',
@@ -34,7 +38,7 @@ bquery_clean = {'int64_field_0': 'id_pet',
     'Delegacinomunicipio': 'dir_del',
     'EspecialistasExistentesseparaporcomas': 'especialistas',
     'EspecialistasFaltantesseparaporcomas': 'especialistas_f',
-    'Estado': 'estado',
+    'Estado': 'dir_estado',
     'HerramientasExistentes': 'herramientas',
     'HerramientasFaltantes': 'herramientas_f',
     'Horariodeatencin': 'horario',
@@ -50,5 +54,57 @@ bquery_clean = {'int64_field_0': 'id_pet',
     'TelfonoAcopio': 'centro_tel',
     'Verificado': 'verificado',
     'latitud': 'lat_long'
-}
+    }
+
+
+# Índice de las columnas a checar para aplicar clean_list
+check_list = ['alimentos', 
+             'alimentos_f', 
+             'articulos',
+             'especialistas',
+             'especialistas_f',
+             'herramientas',
+             'herramientas_f',
+             'medicamentos',
+             'medicamentos_f',
+             'voluntarios'
+             ]
+
+
+# Traduce valores. Ahorita sólo tiene a None. Fase 2: corregir typos?
+clean_list = {' ': None,
+              '0': None, 
+              '.': None,
+              '-': None,
+              'atendido': None,
+              'cero': None,
+              'de todos': None,
+              'de todas': None,
+              'de todo un poco': None,
+              'desabasto': None,
+              'esenciales': None,
+              'na': None,
+              'n/a': None,
+              'nan': None, 
+              'nada': None,
+              'ninguno': None,
+              'no': None,
+              'no aplica': None,
+              'no aplica por el momento': None,
+              'no ahorita': None,
+              'no hay informacion': None,
+              'no hay respuesta': None,
+              'no estan recibido': None,
+              'no estan recibiendo': None,
+              'no estan solicitando donaciones': None,
+              'no se': None,
+              'no se necesitan': None,
+              'no tenemos viveres': None,
+              'recopilando informacion': None,
+              'sin respuesta': None,
+              'todos': None,
+              'tienen': None,
+              'varios': None,
+              'x': None,
+              }
 
