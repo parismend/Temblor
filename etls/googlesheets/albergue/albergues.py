@@ -152,7 +152,7 @@ if __name__ == '__main__':
         try:
             info_pub[info_pub.latitud != ''].to_csv('albergues.csv')
         except:
-            info_pub[~info_pub.latitud.isnul()].to_csv('albergues.csv')
+            info_pub[~info_pub.latitud.isnull()].to_csv('albergues.csv')
     except:
             info_pub.to_csv('albergues.csv')
 #    info_pub[info_pub.latitud == ''].to_csv('albergues_sin_geo.csv')
