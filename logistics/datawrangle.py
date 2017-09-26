@@ -24,12 +24,8 @@ def clean(gsheets, bquery):
 
     for i in range(len(frames)):
         frames[i].columns = [x.strip() for x in frames[i].columns]
-
     df = pd.concat(frames).drop_duplicates().reset_index(drop=True)
     df = df.rename(index=str, columns=bquery_clean)
-
-    #df.ix[:, check_list].apply(lambda x: p_replace(x), axis=1)
-
     return df
 
 
@@ -40,8 +36,9 @@ if __name__ == '__main__':
     for col in df.columns:
         df[col] = df[col].apply(lambda x: p_replace(x))
     
+    df['lat_lng'] = None
+
     print('saving DF to csv: logistics.csv')
     filename = 'data/logistics.csv'
     df.to_csv(filename, index=False, encoding='utf-8')
     
-
