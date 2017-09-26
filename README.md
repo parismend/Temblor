@@ -20,6 +20,10 @@ bit.ly/Verificado19sCENTRO
 Para Albergues:
 bit.ly/Verificado19sALBERGUE
 
+## Setup
+### Credenciales
+1. Crea un OAuth de Google, baja el JSON y ponlo en una carpeta en el root del repo que se llame creds/
+2. Crea una API key de Google maps y ponla como variable de ambiente como GM_KEY.
 
 ## Notas importantes:
 
