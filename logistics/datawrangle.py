@@ -25,7 +25,7 @@ def p_replace(x):
         split = re.split('\W+', x_item, 1)
         first_word = split[0]
         item_col = fw_dict[first_word] if first_word in fw_dict else x_item
-        details_col = '' if len(split)==1 else split[1]
+        details_col = '' if len(split)==1 or first_word in fw_dict else split[1]
 
     return(quant_col, item_col, details_col)
 
