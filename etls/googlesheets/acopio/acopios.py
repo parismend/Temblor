@@ -14,6 +14,7 @@ import logging
 import tqdm
 import csv
 import re
+import datetime
 
 try:
     flags = argparse.ArgumentParser(parents=[tools.argparser]).parse_args()
@@ -142,6 +143,11 @@ if __name__ == '__main__':
     numeros = acopio['Número (aproximado al menos)'].tolist()
     munis = acopio['Delegación o municipio'].tolist()
     estados = acopio['Estado '].tolist()
+    
+    acopio=acopio.loc[1:,]
+    acopio.Timestamp = pd.to_datetime(acopio.Timestamp, format='%m/%d/%Y %H:%M:%S')
+    acopio=acopio[acopio.Timestamp >= datetime.datetime.now()-datetime.timedelta(days=1)]
+
     # coordenadas
     lati = []
     longi = []

@@ -129,7 +129,7 @@ if __name__ == '__main__':
     dist = []
     for i, row in danios.iterrows():
         dist.append(distancia(float(row.latitud), float(row.longitud),
-                              19.3730816, -99.1374631))
+                              17.100493, -96.046680))
     danios['dist'] = dist
-    (danios[danios.dist < 300].drop('dist', axis=1).
+    (danios[danios.dist < 500].drop('dist', axis=1).
         to_csv(filename, index=False, encoding='utf-8'))
