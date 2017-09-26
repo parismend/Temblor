@@ -53,7 +53,8 @@ bquery_clean = {'int64_field_0': 'id_pet',
     'Telfono': 'dir_tel',
     'TelfonoAcopio': 'centro_tel',
     'Verificado': 'verificado',
-    'latitud': 'lat_long'
+    'latitud': 'lat',
+    'longitud': 'lng'
     }
 
 
