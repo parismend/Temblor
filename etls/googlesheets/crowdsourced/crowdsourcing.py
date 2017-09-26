@@ -141,7 +141,7 @@ if __name__ == '__main__':
 
     for col in info_pub.columns:
         print(col)
-        info_pub[col] = info_pub[col].apply(lambda x: unidecode.unidecode(x))
+        info_pub[col] = info_pub[col].apply(lambda x: unidecode.unidecode(str(x)))
 
     # coordenadas
     lati = []
