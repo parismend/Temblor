@@ -1,33 +1,37 @@
 # -*- coding: utf-8 -*-
-import googlemaps 
+import googlemaps
 import pandas as pd
+import re
+from unidecode import unidecode as uc
 from datetime import datetime
 
+
 # Poner clave API Google Geocoding aquí:
-gmaps = googlemaps.Client(key='AIzaSyA29aEYe0FwdHKQ5YY0KRpFnPRbiSHOqf8')
+gmaps = googlemaps.Client(key='')
 
 def p_read(csv):
     df = pd.read_csv(csv)
     notnullv = df['dir_num'].notnull()
 
     df['dir_num'] = df.loc[notnullv, 'dir_num'].apply(lambda x: format(x,'.0f'))
-    df['dir_estado'] = df['dir_estado'].astype(str)
+    #df['dir_estado'] = df['dir_estado'].astype(str)
     return df
 
 # Obtiene y formatea coordenadas de gmaps
 def g_geocode(x):
     geocode_result = gmaps.geocode(x)
     geocode_locdict = {}
-    if geocode_result != []:        
-        geocode_locdict['lat'] = format(geocode_result[0]['geometry']['location']['lat'],'.3f')
-        geocode_locdict['lng'] = format(geocode_result[0]['geometry']['location']['lng'],'.3f')
+    if geocode_result != []:
+        # To-do: mejorar legibilidad de claves. Quitar calle, av, etc)
+        geocode_locdict['name'] = re.sub('[^A-Za-z0-9]+', '',uc(geocode_result[0]['address_components'][1]['short_name']))[:7] +"-"+ uc(geocode_result[0]['address_components'][-1]['short_name'])
+        geocode_locdict['lat_lng'] = format(geocode_result[0]['geometry']['location']['lat'],'.3f'), format(geocode_result[0]['geometry']['location']['lng'],'.3f')
     else:
-        geocode_locdict = {'lat': '0', 'lng': '0'} 
-    print ((geocode_locdict['lat'], geocode_locdict['lng']), ': ', x)
-    return (geocode_locdict['lat'], geocode_locdict['lng'])
+        geocode_locdict = {'name': 'no encontrado', 'lat_lng': ('0', '0')} 
+    print (geocode_locdict, ": \n", x)
+    return (geocode_locdict)
 
 if __name__ == '__main__':
-    df = p_read('data/logistics.csv')
+    df = p_read('data/logistics_needs.csv')
     
     # Declarar listas
     lista = ['dir_calle', 'dir_num', 'dir_col', 'dir_del', 'dir_estado']
@@ -37,7 +41,7 @@ if __name__ == '__main__':
     is_valid = has_coord | has_address
 
     df['g_search_string'] = df.loc[is_valid, lista].apply(lambda x: ' '.join(x), axis = 1)
-    df['lat_lng'] = df.loc[is_valid,'g_search_string'].apply(lambda x: g_geocode(x))
+    df['lat_lng'] = df.loc[is_valid,'g_search_string'].apply(lambda x: g_geocode(x)['lat_lng'])
     df['lat_lng'] = df.loc[df['lat_lng'].notnull(),'lat_lng'].apply(lambda x: ", ".join(x))
 
     # Descartar columnas no utilizadas

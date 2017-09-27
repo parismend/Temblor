@@ -50,6 +50,7 @@ def clean(gsheets, bquery):
 # Inicializa el script
 if __name__ == '__main__':
     df = clean('data/acopiosheets.csv', 'data/acopioreqs.csv')
+    df['lat_lng'] = None
 
     # Importamos nombres limpios para la primera palabra 
     fw = pd.read_csv('data/clean_names.csv')
@@ -57,7 +58,7 @@ if __name__ == '__main__':
 
     print('Registrando entradas')
 
-    needs_data = pd.DataFrame(columns=['lat_long', 'pregunta', 'necesitan', \
+    needs_data = pd.DataFrame(columns=['lat_lng', 'pregunta', 'necesitan', \
         'cantidad', 'art', 'detalles'])
 
     for col in check_list:
@@ -72,7 +73,7 @@ if __name__ == '__main__':
             for i in item_list:
                 x = re.sub(r'[^\w\s]', '', i.strip('., '))
                 quant,item,details = p_replace(x)
-                col_list.append([df['lat_long'][row], col, necesitan, quant, item, details])
+                col_list.append([df['lat_lng'][row], col, necesitan, quant, item, details])
         needs_data = needs_data.append(pd.DataFrame(col_list, columns = needs_data.columns))
 
     filename = 'data/logistics_needs.csv'
