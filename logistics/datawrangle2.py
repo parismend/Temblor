@@ -59,7 +59,7 @@ if __name__ == '__main__':
 # Junta municipios en una sola columna
     municipios = ['dir_mun_pue', 'dir_mun_chi', 'dir_mun_oax', 'dir_mun_gue', 'dir_mun_mor', 'dir_mun_otro']
     df[municipios] = df[municipios].astype(str)
-    df['dir_mun'] = df.loc[df['lat_lng'].notnull(), municipios].apply(lambda x: ",".join(x))
+    df['dir_mun'] = df.loc[df['dir_mun'].isnull(), municipios].apply(lambda x: "".join(x))
 
 # Lista para concatenar en dirección ge búsqueda g_search_string
     lista = ['dir_calle', 'dir_loc', 'dir_mun', 'dir_est']
