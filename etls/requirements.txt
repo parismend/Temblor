@@ -3,7 +3,7 @@ lockfile==0.12.2
 luigi==2.7.0
 python-daemon==2.1.2
 tornado==4.5.2
-requests==2.18.4
+requests==2.20.0
 geocoder==1.32.1
 Shapely==1.6.1
 Rtree==0.8.3

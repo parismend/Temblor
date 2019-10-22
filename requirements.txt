@@ -14,7 +14,7 @@ pyasn1-modules==0.1.4
 python-daemon==2.1.2
 python-dateutil==2.6.1
 pytz==2017.2
-requests==2.5.0
+requests==2.20.0
 rsa==3.4.2
 six==1.11.0
 tornado==4.5.2
