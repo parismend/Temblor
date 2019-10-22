@@ -1,6 +1,6 @@
 docutils==0.14
 lockfile==0.12.2
-luigi==2.7.0
+luigi==2.8.0
 python-daemon==2.1.2
 tornado==4.5.2
 requests==2.18.4
