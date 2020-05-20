@@ -3,7 +3,7 @@ discovery==0.0.4
 docutils==0.14
 geopy==1.11.0
 google-api-python-client==1.6.4
-httplib2==0.10.3
+httplib2==0.18.0
 lockfile==0.12.2
 luigi==2.8.0
 numpy==1.13.1
