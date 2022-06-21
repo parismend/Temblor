@@ -10,6 +10,6 @@ Rtree==0.8.3
 Fiona==1.7.9.post1
 geopandas==0.3.0
 joblib==0.11
-numpy==1.13.1
+numpy==1.22.0
 pandas==0.20.3
 
